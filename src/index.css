@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Instrument+Serif:ital@0;1&family=Caveat:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Malevice Inkbleed — self-hosted (TTF, per the spec's .ttf/.otf allowance).
+ * Figma sets most UI in Medium (500) and metadata labels in SemiBold (600),
+ * so we register those weights plus Regular/Bold. Falls back to Caveat /
+ * Bradley Hand (see tailwind `sans`) if a weight ever fails to load.
+ */
+@font-face {
+  font-family: 'Malevice Inkbleed';
+  src: url('/fonts/MaleviceInkbleed-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Malevice Inkbleed';
+  src: url('/fonts/MaleviceInkbleed-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Malevice Inkbleed';
+  src: url('/fonts/MaleviceInkbleed-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Malevice Inkbleed';
+  src: url('/fonts/MaleviceInkbleed-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  /* Tiled SVG noise paper texture (feTurbulence), kept at very low opacity.
+     Matches the warm-cream Figma paper without shipping the 6.75MB PNG. */
+  --paper-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: theme('fontFamily.sans');
+  font-weight: 500; /* Figma sets UI text in Malevice Inkbleed Medium */
+  color: theme('colors.ink');
+  background: #1c1c1e; /* neutral backdrop behind the desktop phone frame */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* The four display headers (screens 1, 8, 9, 10) opt in to this. */
+.font-serif-display {
+  font-family: theme('fontFamily.serif-display');
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+@layer utilities {
+  /* Warm cream paper — the actual IMG_5276 paper texture used in the design. */
+  .paper-bg {
+    background-color: theme('colors.cream');
+    background-image: url('/assets/paper-texture.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  /* Body copy gets airy line-height by default per the quality bar. */
+  .copy {
+    line-height: 1.6;
+  }
+}
+
+/* Visible, on-brand focus ring for keyboard users (accessibility). */
+:focus-visible {
+  outline: 2px solid theme('colors.edge');
+  outline-offset: 2px;
+  border-radius: 4px;
+}
