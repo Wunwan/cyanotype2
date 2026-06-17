@@ -98,20 +98,25 @@ export default function Negative() {
           />
         </motion.div>
 
-        {/* Down-arrow hint below the photo (asset is horizontal — rotate to point down). */}
-        <img
-          src="/assets/arrow-down.svg"
-          alt=""
-          aria-hidden
-          className="absolute left-[64px] h-[10px] w-[74px] origin-center rotate-90 opacity-70"
-          style={{ top: Math.min(frame.bottom + 26, 636) }}
-        />
+        {/* Down-arrow hint below the photo. The asset is horizontal, so it's
+            rotated 90° inside a sized wrapper that defines its (taller) bounds. */}
+        <div
+          className="pointer-events-none absolute opacity-70"
+          style={{ left: frame.left + 16, top: frame.bottom + 8, width: 16, height: 104 }}
+        >
+          <img
+            src="/assets/arrow-down.svg"
+            alt=""
+            aria-hidden
+            className="absolute left-1/2 top-1/2 h-[15px] w-[104px] max-w-none -translate-x-1/2 -translate-y-1/2 rotate-90"
+          />
+        </div>
 
-        <p className="copy absolute left-1/2 top-[688px] w-[212px] -translate-x-1/2 text-center text-[16px] text-ink">
+        <p className="copy absolute left-1/2 top-[704px] w-[212px] -translate-x-1/2 text-center text-[16px] text-ink">
           Drag down and watch the colors turn inside out.
         </p>
 
-        <div className="absolute left-1/2 top-[768px] -translate-x-1/2">
+        <div className="absolute left-1/2 top-[780px] -translate-x-1/2">
           <motion.div
             animate={{ opacity: locked ? 1 : 0.4, scale: locked ? 1 : 0.97 }}
             transition={{ type: 'spring', stiffness: 300, damping: 22 }}

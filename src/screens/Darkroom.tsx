@@ -9,15 +9,14 @@ import { DARK_GRADIENT } from '../lib/theme';
 import { ROUTES, progressStep } from '../lib/flow';
 
 // Darkroom tools, populated one at a time (fade + scale spring, ~200ms stagger).
-// Composition matches Figma (node 890:1027): pressed yellow+white flowers as a
-// left cluster, cream card centre, glass jar right, dish centre-low, tweezers low-right.
+// Positions match Figma node 890:1027 (tool group at left 30 / top 270).
 const TOOLS = [
-  { src: '/assets/flower-yellow.png', left: 16, top: 158, width: 116, height: 148, rotate: -4, idle: 'float' as const, idleAmount: 3, delay: 0 },
-  { src: '/assets/flower-white.png', left: 20, top: 230, width: 74, height: 73, rotate: 6, idle: 'float' as const, idleAmount: 2.5, delay: 0.2 },
-  { src: '/assets/paper-card-trim.png', left: 132, top: 160, width: 86, height: 64, rotate: -12, idle: 'rotate' as const, idleAmount: 1.2, delay: 0.4 },
-  { src: '/assets/jar-trim.png', left: 214, top: 172, width: 62, height: 100, rotate: 0, idle: 'float' as const, idleAmount: 2, delay: 0.6 },
-  { src: '/assets/dish-trim.png', left: 80, top: 250, width: 82, height: 80, rotate: 0, idle: 'float' as const, idleAmount: 2.5, delay: 0.8 },
-  { src: '/assets/tweezers-trim.png', left: 220, top: 252, width: 92, height: 56, rotate: 32, idle: 'rotate' as const, idleAmount: 1.2, delay: 1 },
+  { src: '/assets/flower-yellow.png', left: 34, top: 348, width: 130, height: 166, rotate: -4, idle: 'float' as const, idleAmount: 3, delay: 0 },
+  { src: '/assets/flower-white.png', left: 28, top: 449, width: 98, height: 96, rotate: 6, idle: 'float' as const, idleAmount: 2.5, delay: 0.2 },
+  { src: '/assets/paper-card-trim.png', left: 169, top: 336, width: 136, height: 101, rotate: -22, idle: 'rotate' as const, idleAmount: 1.2, delay: 0.4 },
+  { src: '/assets/jar-trim.png', left: 240, top: 360, width: 86, height: 139, rotate: 0, idle: 'float' as const, idleAmount: 2, delay: 0.6 },
+  { src: '/assets/dish-trim.png', left: 110, top: 506, width: 98, height: 96, rotate: -14, idle: 'float' as const, idleAmount: 2.5, delay: 0.8 },
+  { src: '/assets/tweezers-trim.png', left: 256, top: 508, width: 130, height: 80, rotate: 38, idle: 'rotate' as const, idleAmount: 1.2, delay: 1 },
 ];
 
 const NARRATION = ['3 hours have passed', '2 hours have passed', '1 hour has passed'];
@@ -45,22 +44,11 @@ export default function Darkroom() {
       className="relative h-full w-full overflow-hidden"
       style={{ backgroundImage: DARK_GRADIENT }}
     >
-      {/* Very faint paper grain over the gradient — soft-light so it doesn't
-          shift the Prussian-blue hue (matches Figma's IMG_5276 @ ~10%). */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.1]"
-        style={{
-          backgroundImage: "url('/assets/paper-texture.png')",
-          backgroundSize: 'cover',
-          mixBlendMode: 'soft-light',
-        }}
-      />
-
       {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.darkroom)} />}
       <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
         Brew in the darkroom
       </p>
-      <p className="absolute left-1/2 top-[108px] w-[300px] -translate-x-1/2 text-center text-[14px] leading-snug text-ink">
+      <p className="absolute left-1/2 top-[231px] w-[323px] -translate-x-1/2 text-center text-[14px] leading-snug text-ink">
         The image absorbs the chemicals and dries in darkness to prevent premature
         exposure.
       </p>
@@ -84,8 +72,8 @@ export default function Darkroom() {
         />
       ))}
 
-      {/* Narrative countdown — sits just below the tool cluster (per Figma) */}
-      <div className="absolute left-1/2 top-[338px] h-[24px] -translate-x-1/2">
+      {/* Narrative countdown */}
+      <div className="absolute left-1/2 top-[674px] h-[24px] -translate-x-1/2">
         <AnimatePresence mode="wait">
           <motion.p
             key={idx}
@@ -101,7 +89,7 @@ export default function Darkroom() {
       </div>
 
       {/* "next" pops in with overshoot once the count finishes */}
-      <div className="absolute left-1/2 top-[372px] -translate-x-1/2">
+      <div className="absolute left-1/2 top-[716px] -translate-x-1/2">
         <AnimatePresence>
           {done && (
             <motion.div

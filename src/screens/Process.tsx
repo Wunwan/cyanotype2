@@ -55,15 +55,6 @@ export default function Process() {
       className="relative h-full w-full overflow-hidden"
       style={{ backgroundImage: DARK_GRADIENT }}
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.12]"
-        style={{
-          backgroundImage: "url('/assets/paper-texture.png')",
-          backgroundSize: 'cover',
-          mixBlendMode: 'multiply',
-        }}
-      />
-
       {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.process)} />}
       <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
         One last rinse
@@ -81,7 +72,7 @@ export default function Process() {
         The print is turning Persian blue.
       </p>
 
-      <div className="absolute left-1/2 top-[815px] -translate-x-1/2">
+      <div className="absolute left-1/2 top-[800px] -translate-x-1/2">
         <AnimatePresence>
           {ready && (
             <motion.div
