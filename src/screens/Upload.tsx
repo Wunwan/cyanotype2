@@ -71,7 +71,7 @@ export default function Upload() {
             <div
               className="absolute inset-0 opacity-50"
               style={{
-                backgroundImage: "url('/assets/paper-texture.png')",
+                backgroundImage: "url('/assets/paper-texture.jpg')",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 mixBlendMode: 'multiply',

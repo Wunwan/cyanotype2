@@ -72,7 +72,7 @@ body {
   /* Warm cream paper — the actual IMG_5276 paper texture used in the design. */
   .paper-bg {
     background-color: theme('colors.cream');
-    background-image: url('/assets/paper-texture.png');
+    background-image: url('/assets/paper-texture.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
