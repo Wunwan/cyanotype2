@@ -53,17 +53,12 @@ export default function Upload() {
         >
           {/* These Figma group SVGs have no intrinsic size (preserveAspectRatio=none),
               so width AND height must be set explicitly or they stretch to 150px. */}
+          {/* Clothesline sits behind the paper… */}
           <img
             src="/assets/clothesline-group5.svg"
             alt=""
             aria-hidden
             className="absolute left-[-3px] top-[194px] h-[64px] w-[407px]"
-          />
-          <img
-            src="/assets/clothespins-group4.svg"
-            alt=""
-            aria-hidden
-            className="absolute left-[147px] top-[208px] h-[71px] w-[230px]"
           />
 
           <button
@@ -87,6 +82,14 @@ export default function Upload() {
               <span className="text-[16px] text-ink">Upload image</span>
             </span>
           </button>
+
+          {/* …and the clothespins clip it from the front (on top of the paper). */}
+          <img
+            src="/assets/clothespins-group4.svg"
+            alt=""
+            aria-hidden
+            className="absolute left-[147px] top-[208px] h-[71px] w-[230px]"
+          />
         </motion.div>
 
         <p className="copy absolute left-1/2 top-[687px] w-[167px] -translate-x-1/2 text-center text-[16px] text-ink">

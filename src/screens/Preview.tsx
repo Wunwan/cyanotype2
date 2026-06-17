@@ -39,7 +39,14 @@ export default function Preview() {
 
         <p className="copy absolute left-1/2 top-[668px] w-[230px] -translate-x-1/2 text-center text-[16px] text-ink">
           Paste cutouts from your photo gallery and build a composition.{' '}
-          <span className="text-edge underline">Learn how</span>
+          <a
+            href="https://support.apple.com/en-us/102460"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-edge underline"
+          >
+            Learn how
+          </a>
         </p>
 
         <div className="absolute left-1/2 top-[775px] -translate-x-1/2">

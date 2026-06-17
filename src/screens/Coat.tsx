@@ -54,13 +54,6 @@ export default function Coat() {
           className="pointer-events-none absolute left-[126px] top-[126px] w-[150px]"
         />
 
-        {/* Paintbrush, angled into the bottom-right. */}
-        <img
-          src="/assets/paintbrush-image170.png"
-          alt=""
-          aria-hidden
-          className="pointer-events-none absolute left-[196px] top-[404px] w-[200px] rotate-[18deg]"
-        />
 
         <p className="copy absolute left-1/2 top-[672px] w-[222px] -translate-x-1/2 text-center text-[16px] text-ink">
           Brush cyanotype chemicals on an even layer and let it dry.

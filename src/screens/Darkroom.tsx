@@ -11,8 +11,8 @@ import { ROUTES, progressStep } from '../lib/flow';
 // Darkroom tools, populated one at a time (fade + scale spring, ~200ms stagger).
 // Positions match Figma node 890:1027 (tool group at left 30 / top 270).
 const TOOLS = [
-  { src: '/assets/flower-yellow.png', left: 34, top: 348, width: 130, height: 166, rotate: -4, idle: 'float' as const, idleAmount: 3, delay: 0 },
-  { src: '/assets/flower-white.png', left: 28, top: 449, width: 98, height: 96, rotate: 6, idle: 'float' as const, idleAmount: 2.5, delay: 0.2 },
+  { src: '/assets/flower-yellow.png', left: 26, top: 349, width: 133, height: 140, rotate: -4, idle: 'float' as const, idleAmount: 3, delay: 0 },
+  { src: '/assets/flower-white.png', left: 24, top: 444, width: 99, height: 92, rotate: 6, idle: 'float' as const, idleAmount: 2.5, delay: 0.2 },
   { src: '/assets/paper-card-trim.png', left: 169, top: 336, width: 136, height: 101, rotate: -22, idle: 'rotate' as const, idleAmount: 1.2, delay: 0.4 },
   { src: '/assets/jar-trim.png', left: 240, top: 360, width: 86, height: 139, rotate: 0, idle: 'float' as const, idleAmount: 2, delay: 0.6 },
   { src: '/assets/dish-trim.png', left: 110, top: 506, width: 98, height: 96, rotate: -14, idle: 'float' as const, idleAmount: 2.5, delay: 0.8 },
