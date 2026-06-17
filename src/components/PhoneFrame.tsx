@@ -5,31 +5,26 @@ export const SCREEN_W = 402;
 export const SCREEN_H = 874;
 
 /**
- * On desktop, render the app inside a centered phone-shaped frame on a neutral
- * backdrop. The frame scales down to fit smaller viewports while preserving the
- * 402×874 aspect ratio, so screen coordinates from Figma stay exact.
+ * Scales the 402×874 app to fill the viewport (no device bezel), so it sits
+ * edge-to-edge on a phone. The 402×874 aspect ratio is preserved — Figma
+ * coordinates stay exact — and any tiny remainder blends into the cream
+ * backdrop. On a wide desktop it simply centers as a tall phone-shaped column.
  */
 export default function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="grid h-full w-full place-items-center overflow-hidden">
+    <div className="grid h-full w-full place-items-center overflow-hidden bg-cream">
       <div
         className="relative"
         style={{
           width: SCREEN_W,
           height: SCREEN_H,
-          // Fit-to-viewport scale, never upscaling past 1.
-          ['--scale' as string]:
-            'min(1, calc((100vw - 16px) / 402), calc((100vh - 16px) / 874))',
+          // Fill the viewport (scale up or down) while keeping the aspect ratio.
+          ['--scale' as string]: 'min(calc(100vw / 402), calc(100vh / 874))',
           transform: 'scale(var(--scale))',
           transformOrigin: 'center center',
         }}
       >
-        {/* Device bezel */}
-        <div className="absolute -inset-[12px] rounded-[56px] bg-neutral-900 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] ring-1 ring-white/5" />
-        {/* Screen */}
-        <div className="absolute inset-0 overflow-hidden rounded-[40px] bg-cream">
-          {children}
-        </div>
+        <div className="absolute inset-0 overflow-hidden bg-cream">{children}</div>
       </div>
     </div>
   );

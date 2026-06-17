@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PaperBackground from '../components/PaperBackground';
 import ProgressIndicator from '../components/ProgressIndicator';
 import Tray from '../components/Tray';
+import StickerLayer from '../components/StickerLayer';
 import { PillButton } from '../components/PillButton';
 import { useFlow } from '../context/FlowContext';
 import { useImageMeta } from '../hooks/useImageMeta';
@@ -33,9 +34,11 @@ export default function Preview() {
             transition={{ type: 'spring', stiffness: 240, damping: 26 }}
           >
             <Tray imageUrl={url} orientation={orientation} width={trayWidth} />
-            {/* TODO: sticker system */}
           </motion.div>
         </div>
+
+        {/* Press-and-hold over the tray to paste cut-out stickers. */}
+        <StickerLayer className="absolute inset-x-0 top-[110px] bottom-[232px]" />
 
         <p className="copy absolute left-1/2 top-[668px] w-[230px] -translate-x-1/2 text-center text-[16px] text-ink">
           Paste cutouts from your photo gallery and build a composition.{' '}

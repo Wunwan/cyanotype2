@@ -37,14 +37,16 @@ export default function Negative() {
     return { w, h, left, top };
   }, [aspect]);
 
-  // Bar drags down until its bottom is ~30px before the photo's bottom edge.
-  const maxDrag = Math.max(60, img.top + img.h - 30 - (BAR.top + BAR.h));
+  // Invert completes once the bar's bottom reaches the photo's bottom edge…
+  const lockDist = Math.max(60, img.top + img.h - (BAR.top + BAR.h));
+  // …but the bar can keep dragging all the way to the bottom edge of the frame.
+  const maxDrag = 874 - (BAR.top + BAR.h);
   const y = useMotionValue(0);
-  const progress = useTransform(y, [0, maxDrag], [0, 1]);
+  const progress = useTransform(y, [0, lockDist], [0, 1]);
   const filter = useMotionTemplate`invert(${progress})`;
 
   useMotionValueEvent(y, 'change', (v) => {
-    if (!locked && v >= maxDrag * 0.95) setLocked(true);
+    if (!locked && v >= lockDist * 0.95) setLocked(true);
   });
 
   const onDone = async () => {
