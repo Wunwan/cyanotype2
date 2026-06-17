@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PaperBackground from '../components/PaperBackground';
-import { getPrint, type Print } from '../lib/storage';
+import { deletePrint, getPrint, type Print } from '../lib/storage';
 import { ROUTES } from '../lib/flow';
 
 const TOP = { rotate: -6, scale: 1, x: 0, y: 0, zIndex: 2 };
@@ -89,6 +89,22 @@ export default function ImagePreview() {
             print not found
           </p>
         )}
+
+        {/* Delete this print */}
+        <button
+          type="button"
+          onClick={() => {
+            if (id) deletePrint(id);
+            navigate(ROUTES.memory);
+          }}
+          aria-label="Delete this print"
+          className="absolute bottom-[80px] left-7 flex h-[44px] items-center gap-2 rounded-full border border-edge px-5 text-[15px] text-ink"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6" />
+          </svg>
+          delete
+        </button>
 
         {/* Back to the gallery */}
         <button

@@ -14,7 +14,7 @@ const DECOS = [
   // small vintage photo, clipped to the card's left edge — flies in from the left
   { key: 'photo', src: '/assets/photo-image124.png', left: 23, top: 389, width: 101, height: 101, rotate: 0, from: { x: -190 }, delay: 0.35, idle: 'float' as const, idleAmount: 3, idleDuration: 5.5 },
   // silver button resting on the print — drops from the top
-  { key: 'button', src: '/assets/button-image143.png', left: 236, top: 246, width: 66, height: 74, rotate: 0, from: { y: -240 }, delay: 0.5, idle: 'rotate' as const, idleAmount: 2, idleDuration: 4.5 },
+  { key: 'button', src: '/assets/button-image143.png', left: 220, top: 226, width: 100, height: 112, rotate: 0, from: { y: -240 }, delay: 0.5, idle: 'rotate' as const, idleAmount: 2, idleDuration: 4.5 },
   // pushpin / thumbtack — arrives from the upper right
   { key: 'pushpin', src: '/assets/pushpin-image122.png', left: 286, top: 367, width: 67, height: 73, rotate: -5.71, from: { x: 150, y: -90 }, delay: 0.65, idle: 'rotate' as const, idleAmount: 2.5, idleDuration: 5 },
   // postage stamp — swings up from the lower right
@@ -90,21 +90,19 @@ export default function Landing() {
             wrapper handles centering; the motion child only animates opacity/y
             (Framer's inline transform would otherwise clobber a Tailwind
             -translate-x-1/2 and push the group off-center). */}
-        <div className="absolute left-1/2 top-[686px] w-[216px] -translate-x-1/2" style={{ zIndex: 30 }}>
+        <div className="absolute left-1/2 top-[697px] w-[168px] -translate-x-1/2" style={{ zIndex: 30 }}>
           <motion.div
-            className="flex flex-col items-center gap-[24px]"
+            className="flex flex-col items-center gap-[27px]"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 26, delay: CTA_DELAY }}
           >
-            <PillButton className="w-full py-3.5" onClick={() => start('full')}>
-              <span className="whitespace-pre text-center text-[18px] leading-snug">
+            <PillButton className="w-full" onClick={() => start('full')}>
+              <span className="whitespace-pre text-center leading-snug">
                 {'Take me through\nthe process'}
               </span>
             </PillButton>
-            <TextLink className="text-[15px]" onClick={() => start('express')}>
-              I know how to make it
-            </TextLink>
+            <TextLink onClick={() => start('express')}>I know how to make it</TextLink>
           </motion.div>
         </div>
       </div>

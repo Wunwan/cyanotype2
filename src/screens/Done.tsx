@@ -44,9 +44,29 @@ export default function Done() {
     }
   };
 
+  // Download the finished cyanotype as a PNG file.
+  const downloadPrint = () => {
+    const blob = finalPrint ?? userImage;
+    if (!blob) return;
+    const slug = (metadata.name || 'cyanotype')
+      .trim()
+      .replace(/[^a-z0-9]+/gi, '-')
+      .replace(/^-+|-+$/g, '')
+      .toLowerCase() || 'cyanotype';
+    const href = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = href;
+    a.download = `${slug}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(href), 1000);
+  };
+
   const onSave = async () => {
-    const ok = await persist(metadata);
+    const ok = await persist(metadata); // keep it in the gallery
     setSaved(ok);
+    downloadPrint(); // and download the file
   };
 
   // Commit a single metadata field; if the print is already saved, keep storage in sync.
