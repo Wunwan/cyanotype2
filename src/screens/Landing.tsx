@@ -90,19 +90,21 @@ export default function Landing() {
             wrapper handles centering; the motion child only animates opacity/y
             (Framer's inline transform would otherwise clobber a Tailwind
             -translate-x-1/2 and push the group off-center). */}
-        <div className="absolute left-1/2 top-[697px] w-[168px] -translate-x-1/2" style={{ zIndex: 30 }}>
+        <div className="absolute left-1/2 top-[686px] w-[216px] -translate-x-1/2" style={{ zIndex: 30 }}>
           <motion.div
-            className="flex flex-col items-center gap-[27px]"
+            className="flex flex-col items-center gap-[24px]"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 26, delay: CTA_DELAY }}
           >
-            <PillButton className="w-full" onClick={() => start('full')}>
-              <span className="whitespace-pre text-center leading-snug">
+            <PillButton className="w-full py-3.5" onClick={() => start('full')}>
+              <span className="whitespace-pre text-center text-[18px] leading-snug">
                 {'Take me through\nthe process'}
               </span>
             </PillButton>
-            <TextLink onClick={() => start('express')}>I know how to make it</TextLink>
+            <TextLink className="text-[15px]" onClick={() => start('express')}>
+              I know how to make it
+            </TextLink>
           </motion.div>
         </div>
       </div>

@@ -32,6 +32,10 @@ export default function Memory() {
   const { resetFlow } = useFlow();
   const [prints, setPrints] = useState<Print[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
+  // Stacking order: each interaction bumps a print's z so the last-touched
+  // print stays on top.
+  const zCounter = useRef(10);
+  const [zMap, setZMap] = useState<Record<string, number>>({});
 
   // Load prints and assign+persist a scatter position to any that lack one.
   useEffect(() => {
@@ -96,6 +100,10 @@ export default function Memory() {
                 key={p.id}
                 print={p}
                 containerRef={containerRef}
+                z={zMap[p.id] ?? 1}
+                onInteract={() =>
+                  setZMap((m) => ({ ...m, [p.id]: ++zCounter.current }))
+                }
                 onOpen={(id) => navigate(`/memory/${id}`)}
                 onCommit={updatePrintPosition}
               />

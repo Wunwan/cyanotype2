@@ -59,7 +59,7 @@ export default function Coat() {
           src="/assets/paintbrush-image170.png"
           alt=""
           aria-hidden
-          className="pointer-events-none absolute left-[250px] top-[470px] w-[120px] rotate-[18deg]"
+          className="pointer-events-none absolute left-[196px] top-[404px] w-[200px] rotate-[18deg]"
         />
 
         <p className="copy absolute left-1/2 top-[672px] w-[222px] -translate-x-1/2 text-center text-[16px] text-ink">

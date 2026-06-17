@@ -12,12 +12,12 @@ import { ROUTES, progressStep } from '../lib/flow';
 // Composition matches Figma (node 890:1027): pressed yellow+white flowers as a
 // left cluster, cream card centre, glass jar right, dish centre-low, tweezers low-right.
 const TOOLS = [
-  { src: '/assets/flower-yellow.png', left: 18, top: 184, width: 112, height: 144, rotate: -4, idle: 'float' as const, idleAmount: 3, delay: 0 },
-  { src: '/assets/flower-white.png', left: 22, top: 256, width: 72, height: 71, rotate: 6, idle: 'float' as const, idleAmount: 2.5, delay: 0.2 },
-  { src: '/assets/paper-card-trim.png', left: 134, top: 186, width: 84, height: 62, rotate: -12, idle: 'rotate' as const, idleAmount: 1.2, delay: 0.4 },
-  { src: '/assets/jar-trim.png', left: 214, top: 192, width: 60, height: 97, rotate: 0, idle: 'float' as const, idleAmount: 2, delay: 0.6 },
-  { src: '/assets/dish-trim.png', left: 78, top: 274, width: 80, height: 78, rotate: 0, idle: 'float' as const, idleAmount: 2.5, delay: 0.8 },
-  { src: '/assets/tweezers-trim.png', left: 220, top: 270, width: 90, height: 55, rotate: 32, idle: 'rotate' as const, idleAmount: 1.2, delay: 1 },
+  { src: '/assets/flower-yellow.png', left: 16, top: 158, width: 116, height: 148, rotate: -4, idle: 'float' as const, idleAmount: 3, delay: 0 },
+  { src: '/assets/flower-white.png', left: 20, top: 230, width: 74, height: 73, rotate: 6, idle: 'float' as const, idleAmount: 2.5, delay: 0.2 },
+  { src: '/assets/paper-card-trim.png', left: 132, top: 160, width: 86, height: 64, rotate: -12, idle: 'rotate' as const, idleAmount: 1.2, delay: 0.4 },
+  { src: '/assets/jar-trim.png', left: 214, top: 172, width: 62, height: 100, rotate: 0, idle: 'float' as const, idleAmount: 2, delay: 0.6 },
+  { src: '/assets/dish-trim.png', left: 80, top: 250, width: 82, height: 80, rotate: 0, idle: 'float' as const, idleAmount: 2.5, delay: 0.8 },
+  { src: '/assets/tweezers-trim.png', left: 220, top: 252, width: 92, height: 56, rotate: 32, idle: 'rotate' as const, idleAmount: 1.2, delay: 1 },
 ];
 
 const NARRATION = ['3 hours have passed', '2 hours have passed', '1 hour has passed'];
@@ -60,7 +60,7 @@ export default function Darkroom() {
       <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
         Brew in the darkroom
       </p>
-      <p className="copy absolute left-1/2 top-[110px] w-[323px] -translate-x-1/2 text-center text-[14px] text-ink">
+      <p className="absolute left-1/2 top-[108px] w-[300px] -translate-x-1/2 text-center text-[14px] leading-snug text-ink">
         The image absorbs the chemicals and dries in darkness to prevent premature
         exposure.
       </p>
@@ -84,8 +84,8 @@ export default function Darkroom() {
         />
       ))}
 
-      {/* Narrative countdown */}
-      <div className="absolute left-1/2 top-[672px] h-[24px] -translate-x-1/2">
+      {/* Narrative countdown — sits just below the tool cluster (per Figma) */}
+      <div className="absolute left-1/2 top-[338px] h-[24px] -translate-x-1/2">
         <AnimatePresence mode="wait">
           <motion.p
             key={idx}
@@ -101,7 +101,7 @@ export default function Darkroom() {
       </div>
 
       {/* "next" pops in with overshoot once the count finishes */}
-      <div className="absolute left-1/2 top-[736px] -translate-x-1/2">
+      <div className="absolute left-1/2 top-[372px] -translate-x-1/2">
         <AnimatePresence>
           {done && (
             <motion.div

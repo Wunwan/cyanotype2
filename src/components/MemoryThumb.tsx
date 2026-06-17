@@ -18,11 +18,16 @@ const THUMB_H = 150;
 export default function MemoryThumb({
   print,
   containerRef,
+  z,
+  onInteract,
   onOpen,
   onCommit,
 }: {
   print: Print;
   containerRef: RefObject<HTMLDivElement | null>;
+  /** Persistent stacking order — the last-touched print sits on top. */
+  z: number;
+  onInteract: () => void;
   onOpen: (id: string) => void;
   onCommit: (id: string, pos: PrintPosition) => void;
 }) {
@@ -53,6 +58,7 @@ export default function MemoryThumb({
     };
     ref.current?.setPointerCapture(e.pointerId);
     setActive(true);
+    onInteract(); // bring to the front, and keep it there
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
@@ -88,7 +94,7 @@ export default function MemoryThumb({
         x,
         y,
         rotate: pos.rotation,
-        zIndex: active ? 30 : 1,
+        zIndex: active ? 1000 : z,
         scale: active ? 1.05 : 1,
         cursor: active ? 'grabbing' : 'grab',
       }}

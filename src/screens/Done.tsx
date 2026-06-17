@@ -69,9 +69,9 @@ export default function Done() {
   return (
     <div className="paper-bg relative min-h-full w-full">
       <div className="relative flex flex-col items-center px-7 pb-20">
-        {/* First viewport: image, metadata and actions. The closing note is
-            pushed below the fold so it only appears once you scroll. */}
-        <div className="flex min-h-[874px] w-full flex-col items-center pt-9">
+        {/* First viewport: image, metadata and actions, vertically centered.
+            The closing note is pushed below the fold (only appears on scroll). */}
+        <div className="flex min-h-[874px] w-full flex-col items-center justify-center py-8">
         {/* Logo + caption + save */}
         <div className="grid h-[31px] w-[53px] place-items-center self-start rounded-[2px] bg-black/5 text-[12px] text-ink/40">
           logo

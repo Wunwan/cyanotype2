@@ -88,7 +88,7 @@ export async function processCyanotype(imageBlob: Blob): Promise<Blob> {
   const img = await blobToImage(imageBlob);
   const nw = img.naturalWidth || 800;
   const nh = img.naturalHeight || 800;
-  const scale = Math.min(1, 1100 / Math.max(nw, nh));
+  const scale = Math.min(1, 2000 / Math.max(nw, nh));
   const w = Math.max(1, Math.round(nw * scale));
   const h = Math.max(1, Math.round(nh * scale));
 
@@ -138,8 +138,8 @@ export async function invertImage(imageBlob: Blob): Promise<Blob> {
  */
 export async function downscaleToDataUrl(
   blob: Blob,
-  maxDim = 1280,
-  quality = 0.82,
+  maxDim = 1600,
+  quality = 0.9,
 ): Promise<string> {
   const img = await blobToImage(blob);
   const w = img.naturalWidth || maxDim;

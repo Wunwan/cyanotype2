@@ -37,7 +37,7 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
   const drawing = useRef(false);
   const lastPoint = useRef<{ x: number; y: number } | null>(null);
   const lastMid = useRef<{ x: number; y: number } | null>(null);
-  const lineW = useRef(18);
+  const lineW = useRef(36);
   const sampleCanvas = useRef<HTMLCanvasElement | null>(null);
   const movesSinceSample = useRef(0);
 
@@ -123,7 +123,7 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
     const p = pointFromEvent(e);
     const mid = { x: (prev.x + p.x) / 2, y: (prev.y + p.y) / 2 };
     // Gentle width drift for a brushy, hand-coated edge (no abrupt jumps).
-    lineW.current = Math.max(15, Math.min(22, lineW.current + (Math.random() - 0.5) * 2));
+    lineW.current = Math.max(30, Math.min(44, lineW.current + (Math.random() - 0.5) * 3));
     ctx.lineWidth = lineW.current;
     // Continuous curve: previous midpoint → new midpoint, control = the real point.
     ctx.beginPath();
