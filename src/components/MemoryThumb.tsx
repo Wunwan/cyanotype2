@@ -1,53 +1,101 @@
 import { motion, useMotionValue } from 'framer-motion';
-import { useRef, type RefObject } from 'react';
+import { useRef, useState, type RefObject } from 'react';
 import type { Print, PrintPosition } from '../lib/storage';
 
+const THUMB_W = 116;
+const THUMB_H = 150;
+
 /**
- * A scattered, draggable print in the gallery. Position is held in motion
- * values (initialised from storage) and committed back on drag end. A small
- * "moved" guard keeps a drag from also firing the open-on-tap.
+ * A scattered, draggable print in the gallery.
+ *
+ * Drag is handled manually (not Framer's `drag`) because the app renders inside
+ * a CSS `transform: scale()` phone frame on desktop, which breaks Framer's
+ * pointer→element mapping (drag feels stiff and lags the cursor). We measure the
+ * live scale from the element's rendered width and divide pointer deltas by it,
+ * so the thumb tracks the cursor 1:1 at any frame scale. A small move threshold
+ * distinguishes a drag from a tap (which opens the print).
  */
 export default function MemoryThumb({
   print,
-  constraintsRef,
+  containerRef,
   onOpen,
   onCommit,
 }: {
   print: Print;
-  constraintsRef: RefObject<HTMLDivElement | null>;
+  containerRef: RefObject<HTMLDivElement | null>;
   onOpen: (id: string) => void;
   onCommit: (id: string, pos: PrintPosition) => void;
 }) {
   const pos = print.position ?? { x: 0, y: 0, rotation: 0 };
   const x = useMotionValue(pos.x);
   const y = useMotionValue(pos.y);
-  const moved = useRef(false);
+  const ref = useRef<HTMLButtonElement>(null);
+  const [active, setActive] = useState(false);
+  const gesture = useRef<{
+    startX: number;
+    startY: number;
+    baseX: number;
+    baseY: number;
+    scale: number;
+    moved: boolean;
+  } | null>(null);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    const rect = ref.current?.getBoundingClientRect();
+    const scale = rect && rect.width ? rect.width / THUMB_W : 1;
+    gesture.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      baseX: x.get(),
+      baseY: y.get(),
+      scale,
+      moved: false,
+    };
+    ref.current?.setPointerCapture(e.pointerId);
+    setActive(true);
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    const g = gesture.current;
+    if (!g) return;
+    const dx = (e.clientX - g.startX) / g.scale;
+    const dy = (e.clientY - g.startY) / g.scale;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) g.moved = true;
+    const cont = containerRef.current;
+    const maxX = (cont?.clientWidth ?? 402) - THUMB_W;
+    const maxY = (cont?.clientHeight ?? 700) - THUMB_H;
+    x.set(Math.max(0, Math.min(maxX, g.baseX + dx)));
+    y.set(Math.max(0, Math.min(maxY, g.baseY + dy)));
+  };
+
+  const onPointerUp = (e: React.PointerEvent) => {
+    const g = gesture.current;
+    if (!g) return;
+    ref.current?.releasePointerCapture(e.pointerId);
+    setActive(false);
+    gesture.current = null;
+    if (g.moved) onCommit(print.id, { x: x.get(), y: y.get(), rotation: pos.rotation });
+    else onOpen(print.id);
+  };
 
   return (
     <motion.button
+      ref={ref}
       type="button"
       aria-label={`Open ${print.metadata.name || 'print'}`}
-      className="absolute left-0 top-0 w-[116px] cursor-grab touch-none active:cursor-grabbing"
-      style={{ x, y, rotate: pos.rotation }}
-      drag
-      dragConstraints={constraintsRef}
-      dragMomentum={false}
-      dragElastic={0.06}
-      whileDrag={{ scale: 1.05, zIndex: 30 }}
-      whileTap={{ scale: 1.03 }}
-      onDragStart={() => {
-        moved.current = false;
+      className="absolute left-0 top-0 w-[116px] touch-none select-none"
+      style={{
+        x,
+        y,
+        rotate: pos.rotation,
+        zIndex: active ? 30 : 1,
+        scale: active ? 1.05 : 1,
+        cursor: active ? 'grabbing' : 'grab',
       }}
-      onDrag={() => {
-        moved.current = true;
-      }}
-      onDragEnd={() =>
-        onCommit(print.id, { x: x.get(), y: y.get(), rotation: pos.rotation })
-      }
-      onClick={() => {
-        if (!moved.current) onOpen(print.id);
-        moved.current = false;
-      }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
     >
       <div className="bg-bone p-1.5 shadow-[1px_1px_6px_rgba(0,0,0,0.18)]">
         <img

@@ -17,10 +17,11 @@ import { ROUTES, progressStep } from '../lib/flow';
 
 // Invert completes after this much travel (~60% down the screen). The bar can
 // still be pulled further — all the way to the bottom.
-const LOCK = 322;
-// Bar is ~60px tall and starts at y=202. 606px travel lands its bottom edge at
-// ~868px — right at the frame bottom (874) without ever exceeding it.
-const MAX_DRAG = 606;
+// The photo box is top 232, height 368 → bottom at 600. The bar (~60px tall,
+// starting at y=202) should stop with its bottom edge at the photo bottom:
+// travel = 600 - 202 - 60 = 338. Invert completes just before that.
+const LOCK = 330;
+const MAX_DRAG = 338;
 
 export default function Negative() {
   const navigate = useNavigate();

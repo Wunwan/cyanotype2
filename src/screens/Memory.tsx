@@ -95,7 +95,7 @@ export default function Memory() {
               <MemoryThumb
                 key={p.id}
                 print={p}
-                constraintsRef={containerRef}
+                containerRef={containerRef}
                 onOpen={(id) => navigate(`/memory/${id}`)}
                 onCommit={updatePrintPosition}
               />

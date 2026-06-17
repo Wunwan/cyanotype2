@@ -37,8 +37,29 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <PhoneFrame>
-      <AnimatedRoutes />
-    </PhoneFrame>
+    <>
+      {/* Hand-drawn "inkbleed" wobble used by pill-button strokes. */}
+      <svg width="0" height="0" className="absolute" aria-hidden focusable="false">
+        <filter id="ink-wobble" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.022 0.04"
+            numOctaves="1"
+            seed="7"
+            result="noise"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="noise"
+            scale="3"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
+      <PhoneFrame>
+        <AnimatedRoutes />
+      </PhoneFrame>
+    </>
   );
 }
