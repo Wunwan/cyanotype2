@@ -97,7 +97,7 @@ export default function Darkroom() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 400, damping: 12 }}
             >
-              <PillButton className="!text-[#FFFDF9]" onClick={() => navigate(ROUTES.process)}>
+              <PillButton textColor="#FFFDF9" onClick={() => navigate(ROUTES.process)}>
                 next
               </PillButton>
             </motion.div>

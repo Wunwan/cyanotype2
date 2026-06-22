@@ -119,29 +119,27 @@ export default function Done() {
           )}
         </div>
 
-        {/* Click-to-edit metadata */}
-        <div className="mt-7 w-[295px] border border-edge text-black">
-          <div className="flex items-baseline gap-2 border-b border-edge px-2.5 py-1.5">
-            <span className="text-[11px] font-semibold">name:</span>
-            <div className="flex-1">
-              <EditableField
-                value={metadata.name}
-                onCommit={commitField('name')}
-                ariaLabel="Name"
-              />
-            </div>
+        {/* Click-to-edit metadata — open notes style, no container */}
+        <div className="mt-7 w-[295px] space-y-4 text-black">
+          <div>
+            <p className="text-[11px] font-semibold text-ink/50">name</p>
+            <EditableField
+              value={metadata.name}
+              onCommit={commitField('name')}
+              ariaLabel="Name"
+            />
           </div>
-          <div className="grid grid-cols-2">
-            <div className="border-r border-edge px-2.5 py-1.5">
-              <div className="text-[11px] font-semibold">date:</div>
+          <div className="flex gap-10">
+            <div>
+              <p className="text-[11px] font-semibold text-ink/50">date</p>
               <EditableField
                 value={metadata.date}
                 onCommit={commitField('date')}
                 ariaLabel="Date"
               />
             </div>
-            <div className="px-2.5 py-1.5">
-              <div className="text-[11px] font-semibold">place:</div>
+            <div>
+              <p className="text-[11px] font-semibold text-ink/50">place</p>
               <EditableField
                 value={metadata.place}
                 onCommit={commitField('place')}

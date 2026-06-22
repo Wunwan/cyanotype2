@@ -13,6 +13,7 @@ export function PillButton({
   onClick,
   disabled = false,
   className = '',
+  textColor,
   type = 'button',
   'aria-label': ariaLabel,
 }: {
@@ -20,6 +21,7 @@ export function PillButton({
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
+  textColor?: string;
   type?: 'button' | 'submit';
   'aria-label'?: string;
 }) {
@@ -39,7 +41,7 @@ export function PillButton({
         className="pointer-events-none absolute inset-0 rounded-full border-2 border-edge"
         style={{ filter: 'url(#ink-wobble)' }}
       />
-      <span className="relative">{children}</span>
+      <span className="relative" style={textColor ? { color: textColor } : undefined}>{children}</span>
     </motion.button>
   );
 }
