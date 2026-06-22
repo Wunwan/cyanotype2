@@ -6,12 +6,11 @@ import ProgressIndicator from '../components/ProgressIndicator';
 import { useFlow } from '../context/FlowContext';
 import { ROUTES, nextRoute, progressStep } from '../lib/flow';
 
-// Sewing buttons that "spawn" above the viewport and fall to the bottom with a
-// springy bounce, staggered ~100ms (Figma coords from node 870:907).
+// Sewing buttons that fall in from above with a springy stagger.
 const FALLING_BUTTONS = [
   { src: '/assets/button-image169.webp', left: 248, top: 731, size: 154, delay: 0 },
-  { src: '/assets/button-image143.webp', left: 38, top: 757, w: 55, h: 63, delay: 0.1 },
-  { src: '/assets/button-image167.webp', left: 83, top: 820, size: 56, delay: 0.2 },
+  { src: '/assets/button-image143.webp', left: 38,  top: 757, w: 55, h: 63, delay: 0.1 },
+  { src: '/assets/button-image167.webp', left: 83,  top: 820, size: 56, delay: 0.2 },
   { src: '/assets/button-image168.webp', left: 244, top: 825, size: 46, delay: 0.3 },
 ];
 
@@ -24,7 +23,7 @@ export default function Upload() {
     const file = e.target.files?.[0];
     if (!file) return;
     setUserImage(file);
-    const next = nextRoute(ROUTES.upload, flowMode); // full → preview, express → process
+    const next = nextRoute(ROUTES.upload, flowMode);
     if (next) navigate(next);
   };
 
@@ -37,11 +36,10 @@ export default function Upload() {
           Choose a photo
         </p>
 
-        {/* Hanging assembly — clothesline, clips and the polaroid swing together
-            from the top center, and give a little sway when the buttons land. */}
+        {/* Hanging assembly — wire, clips, card and upload button sway together. */}
         <motion.div
           className="absolute inset-0"
-          style={{ transformOrigin: '201px 205px' }}
+          style={{ transformOrigin: '201px 200px' }}
           initial={{ rotate: 0 }}
           animate={{ rotate: [0, 1.6, -1.1, 0.6, -0.3, 0] }}
           transition={{
@@ -51,52 +49,97 @@ export default function Upload() {
             times: [0, 0.2, 0.45, 0.65, 0.85, 1],
           }}
         >
-          {/* These Figma group SVGs have no intrinsic size (preserveAspectRatio=none),
-              so width AND height must be set explicitly or they stretch to 150px. */}
-          {/* Clothesline sits behind the paper… */}
-          <img
-            src="/assets/clothesline-group5.svg"
-            alt=""
-            aria-hidden
-            className="absolute left-[-3px] top-[194px] h-[64px] w-[407px]"
-          />
+          {/* Wire / rope spanning full width, slight clockwise tilt */}
+          <div
+            className="absolute flex items-center justify-center"
+            style={{ left: -7, top: 139, width: 565.059, height: 137.568 }}
+          >
+            <img
+              src="/assets/wire-image175.webp"
+              alt=""
+              aria-hidden
+              draggable={false}
+              className="flex-none select-none"
+              style={{ width: 561, height: 116, transform: 'rotate(2.21deg)' }}
+            />
+          </div>
 
+          {/* Paper card — stored as landscape, rotated ~83° to appear portrait */}
+          <div
+            className="absolute flex items-center justify-center"
+            style={{ left: 40.62, top: 229.15, width: 321.274, height: 384.099 }}
+          >
+            <div
+              className="relative flex-none overflow-hidden"
+              style={{ width: 353.82, height: 282.231, transform: 'rotate(83.36deg) scaleY(-1)' }}
+            >
+              <img
+                src="/assets/card-image139.webp"
+                alt=""
+                aria-hidden
+                draggable={false}
+                className="absolute max-w-none select-none pointer-events-none"
+                style={{ height: '100.01%', left: '-22.32%', top: '-0.01%', width: '146.14%' }}
+              />
+            </div>
+          </div>
+
+          {/* Left paperclip */}
+          <div
+            className="absolute flex items-center justify-center"
+            style={{ left: 161, top: 205, width: 73.849, height: 94.456 }}
+          >
+            <img
+              src="/assets/clip-image172.webp"
+              alt=""
+              aria-hidden
+              draggable={false}
+              className="flex-none select-none"
+              style={{ width: 83.404, height: 45.53, transform: 'rotate(67.63deg)' }}
+            />
+          </div>
+
+          {/* Right paperclip */}
+          <div
+            className="absolute flex items-center justify-center"
+            style={{ left: 325, top: 222, width: 46.075, height: 55.857 }}
+          >
+            <img
+              src="/assets/clip-image172.webp"
+              alt=""
+              aria-hidden
+              draggable={false}
+              className="flex-none select-none"
+              style={{ width: 49.049, height: 26.776, transform: 'rotate(116.91deg)' }}
+            />
+          </div>
+
+          {/* Upload tap target — centered on the card */}
           <button
             type="button"
             aria-label="Upload image"
             onClick={() => inputRef.current?.click()}
-            className="absolute left-[39.55px] top-[243.96px] h-[374px] w-[308px] overflow-hidden rounded-[2px] bg-[#f4eedd] shadow-[0_10px_26px_-14px_rgba(0,0,0,0.5)]"
+            className="absolute flex -translate-x-1/2 flex-col items-center gap-[15px]"
+            style={{ left: 'calc(50% + 3.5px)', top: 374 }}
           >
-            {/* Clean paper grain (the photo asset had baked-in white margins). */}
-            <div
-              className="absolute inset-0 opacity-50"
-              style={{
-                backgroundImage: "url('/assets/paper-texture.jpg')",
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                mixBlendMode: 'multiply',
-              }}
-            />
-            <span className="absolute inset-x-0 top-[142px] flex flex-col items-center gap-[15px]">
-              <img src="/assets/icon-upload.svg" alt="" aria-hidden className="h-[43px] w-[43px]" />
-              <span className="text-[16px] text-ink">Upload image</span>
+            {/* Icon sits in a 43×43 slot with 8.33% padding on each side */}
+            <span className="relative size-[43px]">
+              <img
+                src="/assets/icon-upload.svg"
+                alt=""
+                aria-hidden
+                className="absolute inset-[8.33%] block w-full h-full"
+              />
             </span>
+            <span className="text-[16px] text-ink">Upload image</span>
           </button>
-
-          {/* …and the clothespins clip it from the front (on top of the paper). */}
-          <img
-            src="/assets/clothespins-group4.svg"
-            alt=""
-            aria-hidden
-            className="absolute left-[147px] top-[208px] h-[71px] w-[230px]"
-          />
         </motion.div>
 
         <p className="copy absolute left-1/2 top-[687px] w-[167px] -translate-x-1/2 text-center text-[16px] text-ink">
           Choose what you'd like to capture in blue.
         </p>
 
-        {/* Falling sewing buttons. */}
+        {/* Falling sewing buttons */}
         {FALLING_BUTTONS.map((b, i) => {
           const w = b.w ?? b.size!;
           const h = b.h ?? b.size!;
