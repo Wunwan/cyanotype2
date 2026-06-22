@@ -9,10 +9,10 @@ import { ROUTES, nextRoute, progressStep } from '../lib/flow';
 // Sewing buttons that "spawn" above the viewport and fall to the bottom with a
 // springy bounce, staggered ~100ms (Figma coords from node 870:907).
 const FALLING_BUTTONS = [
-  { src: '/assets/button-image169.png', left: 248, top: 731, size: 154, delay: 0 },
-  { src: '/assets/button-image143.png', left: 38, top: 757, w: 55, h: 63, delay: 0.1 },
-  { src: '/assets/button-image167.png', left: 83, top: 820, size: 56, delay: 0.2 },
-  { src: '/assets/button-image168.png', left: 244, top: 825, size: 46, delay: 0.3 },
+  { src: '/assets/button-image169.webp', left: 248, top: 731, size: 154, delay: 0 },
+  { src: '/assets/button-image143.webp', left: 38, top: 757, w: 55, h: 63, delay: 0.1 },
+  { src: '/assets/button-image167.webp', left: 83, top: 820, size: 56, delay: 0.2 },
+  { src: '/assets/button-image168.webp', left: 244, top: 825, size: 46, delay: 0.3 },
 ];
 
 export default function Upload() {

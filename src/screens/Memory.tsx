@@ -87,7 +87,7 @@ export default function Memory() {
           {prints.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center gap-4">
               <img
-                src="/assets/paperclip-image119.png"
+                src="/assets/paperclip-image119.webp"
                 alt=""
                 aria-hidden
                 className="w-[70px] -rotate-12 opacity-60"

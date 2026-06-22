@@ -179,7 +179,7 @@ export default function Done() {
         </motion.div>
 
         <img
-          src="/assets/star-image126.png"
+          src="/assets/star-image126.webp"
           alt=""
           aria-hidden
           className="mt-4 w-[114px]"

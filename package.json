@@ -29,6 +29,7 @@
     "globals": "^17.6.0",
     "postcss": "^8.5.15",
     "puppeteer": "^25.1.0",
+    "sharp": "^0.35.2",
     "tailwindcss": "^3.4.19",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
