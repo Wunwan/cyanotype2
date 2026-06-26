@@ -6,7 +6,7 @@ import ProgressIndicator from '../components/ProgressIndicator';
 import { PillButton } from '../components/PillButton';
 import { useFlow } from '../context/FlowContext';
 import { useObjectUrl } from '../hooks/useObjectUrl';
-import { processCyanotype } from '../lib/imageProcessing';
+import { processCyanotype, processCyanotypeWithMask } from '../lib/imageProcessing';
 import { DARK_GRADIENT } from '../lib/theme';
 import { ROUTES, progressStep } from '../lib/flow';
 
@@ -14,7 +14,7 @@ const SECONDS = 5;
 
 export default function Process() {
   const navigate = useNavigate();
-  const { flowMode, userImage, negativeImage, finalPrint, setFinalPrint } = useFlow();
+  const { flowMode, userImage, negativeImage, paintedMask, finalPrint, setFinalPrint } = useFlow();
 
   // Full users expose the negative; express users the original.
   const inputUrl = useObjectUrl(negativeImage ?? userImage);
@@ -28,7 +28,9 @@ export default function Process() {
     let cancelled = false;
     (async () => {
       if (!userImage) return;
-      const out = await processCyanotype(userImage);
+      const out = paintedMask
+        ? await processCyanotypeWithMask(userImage, paintedMask)
+        : await processCyanotype(userImage);
       if (!cancelled) setFinalPrint(out);
     })();
     return () => {
