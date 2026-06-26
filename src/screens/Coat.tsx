@@ -77,7 +77,7 @@ export default function Coat() {
 
         {/* Bulldog clip on the top edge of the paper. */}
         <img
-          src="/assets/clip-top-image120.png"
+          src="/assets/clip-top-image120.webp"
           alt=""
           aria-hidden
           className="pointer-events-none absolute left-[126px] top-[126px] w-[150px]"

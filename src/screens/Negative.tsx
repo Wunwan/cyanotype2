@@ -97,7 +97,7 @@ export default function Negative() {
           dragMomentum={false}
         >
           <img
-            src="/assets/silver-bar-image156.png"
+            src="/assets/silver-bar-image156.webp"
             alt=""
             aria-hidden
             className="w-full select-none"

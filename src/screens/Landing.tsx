@@ -12,15 +12,15 @@ import { ROUTES } from '../lib/flow';
 // (node 870:890), so the composition matches the design 1:1.
 const DECOS = [
   // small vintage photo, clipped to the card's left edge — flies in from the left
-  { key: 'photo', src: '/assets/photo-image124.png', left: 23, top: 389, width: 101, height: 101, rotate: 0, from: { x: -190 }, delay: 0.35, idle: 'float' as const, idleAmount: 3, idleDuration: 5.5 },
+  { key: 'photo', src: '/assets/photo-image124.webp', left: 23, top: 389, width: 101, height: 101, rotate: 0, from: { x: -190 }, delay: 0.35, idle: 'float' as const, idleAmount: 3, idleDuration: 5.5 },
   // silver button resting on the print — drops from the top
-  { key: 'button', src: '/assets/button-image143.png', left: 220, top: 226, width: 100, height: 112, rotate: 0, from: { y: -240 }, delay: 0.5, idle: 'rotate' as const, idleAmount: 2, idleDuration: 4.5 },
+  { key: 'button', src: '/assets/button-image143.webp', left: 220, top: 226, width: 100, height: 112, rotate: 0, from: { y: -240 }, delay: 0.5, idle: 'rotate' as const, idleAmount: 2, idleDuration: 4.5 },
   // pushpin / thumbtack — arrives from the upper right
-  { key: 'pushpin', src: '/assets/pushpin-image122.png', left: 286, top: 367, width: 67, height: 73, rotate: -5.71, from: { x: 150, y: -90 }, delay: 0.65, idle: 'rotate' as const, idleAmount: 2.5, idleDuration: 5 },
+  { key: 'pushpin', src: '/assets/pushpin-image122.webp', left: 286, top: 367, width: 67, height: 73, rotate: -5.71, from: { x: 150, y: -90 }, delay: 0.65, idle: 'rotate' as const, idleAmount: 2.5, idleDuration: 5 },
   // postage stamp — swings up from the lower right
-  { key: 'stamp', src: '/assets/stamp-image123.png', left: 264, top: 464, width: 131, height: 130, rotate: 0, from: { x: 150, y: 80 }, delay: 0.8, idle: 'rotate' as const, idleAmount: 1.5, idleDuration: 6 },
+  { key: 'stamp', src: '/assets/stamp-image123.webp', left: 264, top: 464, width: 131, height: 130, rotate: 0, from: { x: 150, y: 80 }, delay: 0.8, idle: 'rotate' as const, idleAmount: 1.5, idleDuration: 6 },
   // paperclip — clings to the far-left edge, drifts in from the bottom-left
-  { key: 'clip', src: '/assets/paperclip-image119.png', left: -16, top: 440, width: 129, height: 119, rotate: 37.23, from: { x: -120, y: 150, rotate: -20 }, delay: 0.95, idle: 'float' as const, idleAmount: 3, idleDuration: 5 },
+  { key: 'clip', src: '/assets/paperclip-image119.webp', left: -16, top: 440, width: 129, height: 119, rotate: 37.23, from: { x: -120, y: 150, rotate: -20 }, delay: 0.95, idle: 'float' as const, idleAmount: 3, idleDuration: 5 },
 ];
 
 const CTA_DELAY = 1.45; // after the last decoration (0.95) has settled

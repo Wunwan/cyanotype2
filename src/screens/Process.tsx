@@ -82,7 +82,7 @@ export default function Process() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 400, damping: 12 }}
             >
-              <PillButton className="text-[#FFFDF9]" onClick={() => navigate(ROUTES.done)}>
+              <PillButton textColor="#FFFDF9" onClick={() => navigate(ROUTES.done)}>
                 next
               </PillButton>
             </motion.div>

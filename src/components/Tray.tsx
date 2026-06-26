@@ -45,7 +45,7 @@ export default function Tray({
       {/* Tray frame — fills the footprint; rotated for portrait. */}
       {portrait ? (
         <img
-          src="/assets/silver-tray-trim.png"
+          src="/assets/silver-tray-trim.webp"
           alt=""
           aria-hidden
           className="absolute left-1/2 top-1/2 max-w-none"
@@ -53,7 +53,7 @@ export default function Tray({
         />
       ) : (
         <img
-          src="/assets/silver-tray-trim.png"
+          src="/assets/silver-tray-trim.webp"
           alt=""
           aria-hidden
           className="absolute inset-0 h-full w-full"

@@ -11,12 +11,12 @@ import { ROUTES, progressStep } from '../lib/flow';
 // Darkroom tools, populated one at a time (fade + scale spring, ~200ms stagger).
 // Positions match Figma node 890:1027 (tool group at left 30 / top 270).
 const TOOLS = [
-  { src: '/assets/flower-yellow.png', left: 26, top: 349, width: 133, height: 140, rotate: -4, idle: 'float' as const, idleAmount: 3, delay: 0 },
-  { src: '/assets/flower-white.png', left: 24, top: 444, width: 99, height: 92, rotate: 6, idle: 'float' as const, idleAmount: 2.5, delay: 0.2 },
-  { src: '/assets/paper-card-trim.png', left: 169, top: 336, width: 136, height: 101, rotate: -22, idle: 'rotate' as const, idleAmount: 1.2, delay: 0.4 },
-  { src: '/assets/jar-trim.png', left: 240, top: 360, width: 86, height: 139, rotate: 0, idle: 'float' as const, idleAmount: 2, delay: 0.6 },
-  { src: '/assets/dish-trim.png', left: 110, top: 506, width: 98, height: 96, rotate: -14, idle: 'float' as const, idleAmount: 2.5, delay: 0.8 },
-  { src: '/assets/tweezers-trim.png', left: 256, top: 508, width: 130, height: 80, rotate: 38, idle: 'rotate' as const, idleAmount: 1.2, delay: 1 },
+  { src: '/assets/flower-yellow.webp', left: 26, top: 349, width: 133, height: 140, rotate: -4, idle: 'float' as const, idleAmount: 3, delay: 0 },
+  { src: '/assets/flower-white.webp', left: 24, top: 444, width: 99, height: 92, rotate: 6, idle: 'float' as const, idleAmount: 2.5, delay: 0.2 },
+  { src: '/assets/paper-card-trim.webp', left: 169, top: 336, width: 136, height: 101, rotate: -22, idle: 'rotate' as const, idleAmount: 1.2, delay: 0.4 },
+  { src: '/assets/jar-trim.webp', left: 240, top: 360, width: 86, height: 139, rotate: 0, idle: 'float' as const, idleAmount: 2, delay: 0.6 },
+  { src: '/assets/dish-trim.webp', left: 110, top: 506, width: 98, height: 96, rotate: -14, idle: 'float' as const, idleAmount: 2.5, delay: 0.8 },
+  { src: '/assets/tweezers-trim.webp', left: 256, top: 508, width: 130, height: 80, rotate: 38, idle: 'rotate' as const, idleAmount: 1.2, delay: 1 },
 ];
 
 const NARRATION = ['3 hours have passed', '2 hours have passed', '1 hour has passed'];
@@ -97,7 +97,7 @@ export default function Darkroom() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 400, damping: 12 }}
             >
-              <PillButton className="text-[#FFFDF9]" onClick={() => navigate(ROUTES.process)}>
+              <PillButton textColor="#FFFDF9" onClick={() => navigate(ROUTES.process)}>
                 next
               </PillButton>
             </motion.div>
