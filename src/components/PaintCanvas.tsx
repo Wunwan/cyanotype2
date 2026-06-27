@@ -6,8 +6,11 @@ import {
   useRef,
 } from 'react';
 
+export type BrushType = 'brush' | 'bristle' | 'sponge';
+
 export interface PaintCanvasHandle {
   toBlob: () => Promise<Blob | null>;
+  fill: () => void;
 }
 
 interface Props {
@@ -16,30 +19,40 @@ interface Props {
   className?: string;
   /** Fired (throttled) with painted coverage 0..1. */
   onCoverage?: (pct: number) => void;
+  brushType?: BrushType;
+  /** Base brush radius in px. Default 18. */
+  brushSize?: number;
 }
 
-const STROKE_RGB = '#1a4d80'; // drawn opaque, then baked at 0.6 → rgba(26,77,128,0.6)
+const STROKE_RGB = '#1a4d80';
 const STROKE_ALPHA = 0.6;
 
 /**
- * Finger/mouse paint surface. To get a smooth, *connected*, semi-transparent
- * stroke we draw the in-progress stroke OPAQUELY on a top "active" layer using
- * continuous mid-point quadratic smoothing (no gaps, no beading), then bake it
- * onto the committed canvas at 0.6 alpha when the stroke ends. Coverage is
- * sampled (downscaled) so the caller can enable "done" past ~15%.
+ * Finger/mouse paint surface with three brush modes.
+ * - brush: smooth round strokes (original behaviour, size-aware)
+ * - bristle: multiple thin parallel strands spread perpendicular to travel
+ * - sponge: scattered dot stipple around the pointer
+ *
+ * In-progress stroke is drawn opaquely on an "active" layer, then baked onto
+ * the committed canvas at 0.6 alpha on stroke end (avoids beading artefacts).
  */
 const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
-  { width, height, className, onCoverage },
+  { width, height, className, onCoverage, brushType = 'brush', brushSize = 18 },
   ref,
 ) {
-  const mainRef = useRef<HTMLCanvasElement>(null); // committed strokes (baked @0.6)
-  const activeRef = useRef<HTMLCanvasElement>(null); // current stroke (opaque)
+  const mainRef = useRef<HTMLCanvasElement>(null);
+  const activeRef = useRef<HTMLCanvasElement>(null);
   const drawing = useRef(false);
   const lastPoint = useRef<{ x: number; y: number } | null>(null);
   const lastMid = useRef<{ x: number; y: number } | null>(null);
-  const lineW = useRef(36);
+  const lineW = useRef(brushSize * 2);
   const sampleCanvas = useRef<HTMLCanvasElement | null>(null);
   const movesSinceSample = useRef(0);
+  // Keep refs so drawing callbacks always see the latest prop values.
+  const brushTypeRef = useRef(brushType);
+  const brushSizeRef = useRef(brushSize);
+  useEffect(() => { brushTypeRef.current = brushType; }, [brushType]);
+  useEffect(() => { brushSizeRef.current = brushSize; lineW.current = brushSize * 2; }, [brushSize]);
 
   useImperativeHandle(ref, () => ({
     toBlob: () =>
@@ -48,9 +61,21 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
         if (!c) return resolve(null);
         c.toBlob((b) => resolve(b), 'image/png');
       }),
+    fill: () => {
+      const main = mainRef.current;
+      if (!main) return;
+      const ctx = main.getContext('2d');
+      if (!ctx) return;
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.globalAlpha = STROKE_ALPHA;
+      ctx.fillStyle = STROKE_RGB;
+      ctx.fillRect(0, 0, main.width, main.height);
+      ctx.restore();
+      onCoverage?.(1);
+    },
   }));
 
-  // Size both layers at device resolution.
   useEffect(() => {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     for (const c of [mainRef.current, activeRef.current]) {
@@ -100,6 +125,77 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
+  const drawDot = (ctx: CanvasRenderingContext2D, p: { x: number; y: number }) => {
+    const r = lineW.current / 2;
+    if (brushTypeRef.current === 'sponge') {
+      for (let i = 0; i < 20; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const dist = Math.random() * r;
+        ctx.globalAlpha = 0.3 + Math.random() * 0.7;
+        ctx.beginPath();
+        ctx.arc(p.x + Math.cos(angle) * dist, p.y + Math.sin(angle) * dist, 1 + Math.random() * 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  };
+
+  const drawSegment = (
+    ctx: CanvasRenderingContext2D,
+    prev: { x: number; y: number },
+    prevMid: { x: number; y: number },
+    mid: { x: number; y: number },
+    p: { x: number; y: number },
+  ) => {
+    const type = brushTypeRef.current;
+    const base = brushSizeRef.current;
+
+    if (type === 'bristle') {
+      const dx = p.x - prev.x;
+      const dy = p.y - prev.y;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      const perpX = -dy / len;
+      const perpY = dx / len;
+      const n = 6;
+      const halfSpread = lineW.current * 0.55;
+      for (let i = 0; i < n; i++) {
+        const t = n === 1 ? 0 : (i / (n - 1) - 0.5) * 2;
+        const off = t * halfSpread;
+        ctx.lineWidth = 1.5 + Math.random() * 2;
+        ctx.globalAlpha = 0.45 + Math.random() * 0.55;
+        ctx.beginPath();
+        ctx.moveTo(prevMid.x + perpX * off, prevMid.y + perpY * off);
+        ctx.quadraticCurveTo(prev.x + perpX * off, prev.y + perpY * off, mid.x + perpX * off, mid.y + perpY * off);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    } else if (type === 'sponge') {
+      const r = lineW.current / 2;
+      const count = Math.max(8, Math.round(r * 0.9));
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const dist = Math.random() * r;
+        ctx.globalAlpha = 0.25 + Math.random() * 0.6;
+        ctx.beginPath();
+        ctx.arc(p.x + Math.cos(angle) * dist, p.y + Math.sin(angle) * dist, 1 + Math.random() * 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    } else {
+      // Round brush with gentle width drift.
+      lineW.current = Math.max(base * 1.6, Math.min(base * 2.5, lineW.current + (Math.random() - 0.5) * 3));
+      ctx.lineWidth = lineW.current;
+      ctx.beginPath();
+      ctx.moveTo(prevMid.x, prevMid.y);
+      ctx.quadraticCurveTo(prev.x, prev.y, mid.x, mid.y);
+      ctx.stroke();
+    }
+  };
+
   const onPointerDown = (e: React.PointerEvent) => {
     const ctx = activeRef.current?.getContext('2d');
     if (!ctx) return;
@@ -108,10 +204,8 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
     lastPoint.current = p;
     lastMid.current = p;
     activeRef.current?.setPointerCapture(e.pointerId);
-    // A dot so a tap/click leaves a mark.
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, lineW.current / 2, 0, Math.PI * 2);
-    ctx.fill();
+    lineW.current = brushSizeRef.current * 2;
+    drawDot(ctx, p);
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
@@ -122,14 +216,8 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
     if (!ctx || !prev || !prevMid) return;
     const p = pointFromEvent(e);
     const mid = { x: (prev.x + p.x) / 2, y: (prev.y + p.y) / 2 };
-    // Gentle width drift for a brushy, hand-coated edge (no abrupt jumps).
-    lineW.current = Math.max(30, Math.min(44, lineW.current + (Math.random() - 0.5) * 3));
     ctx.lineWidth = lineW.current;
-    // Continuous curve: previous midpoint → new midpoint, control = the real point.
-    ctx.beginPath();
-    ctx.moveTo(prevMid.x, prevMid.y);
-    ctx.quadraticCurveTo(prev.x, prev.y, mid.x, mid.y);
-    ctx.stroke();
+    drawSegment(ctx, prev, prevMid, mid, p);
     lastPoint.current = p;
     lastMid.current = mid;
 
@@ -148,7 +236,6 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
     const main = mainRef.current;
     const active = activeRef.current;
     if (main && active) {
-      // Bake the opaque stroke onto the committed canvas at 0.6 alpha.
       const m = main.getContext('2d');
       const a = active.getContext('2d');
       if (m && a) {

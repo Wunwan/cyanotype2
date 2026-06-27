@@ -134,6 +134,45 @@ export async function invertImage(imageBlob: Blob): Promise<Blob> {
 const PAPER_COLOR = [252, 251, 246] as const;
 
 /**
+ * Lay out 1–5 images in a grid and return a single composited blob. Used
+ * before the cyanotype pipeline so multiple uploads are treated as one image.
+ */
+export async function compositeImages(blobs: Blob[]): Promise<Blob> {
+  if (blobs.length === 0) throw new Error('compositeImages: no images');
+  if (blobs.length === 1) return blobs[0];
+
+  const imgs = await Promise.all(blobs.map(blobToImage));
+  const cols = blobs.length <= 2 ? blobs.length : Math.ceil(Math.sqrt(blobs.length));
+  const rows = Math.ceil(blobs.length / cols);
+  const CELL = 600;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = CELL * cols;
+  canvas.height = CELL * rows;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return blobs[0];
+
+  ctx.fillStyle = `rgb(${PAPER_COLOR.join(',')})`;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  imgs.forEach((img, i) => {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const cx = col * CELL;
+    const cy = row * CELL;
+    const aspect = (img.naturalWidth || 1) / (img.naturalHeight || 1);
+    let dw = CELL;
+    let dh = CELL / aspect;
+    if (dh > CELL) { dh = CELL; dw = CELL * aspect; }
+    ctx.drawImage(img, cx + (CELL - dw) / 2, cy + (CELL - dh) / 2, dw, dh);
+  });
+
+  return new Promise((resolve) =>
+    canvas.toBlob((b) => resolve(b ?? blobs[0]), 'image/png'),
+  );
+}
+
+/**
  * Like processCyanotype but applies a painted mask: only pixels where the mask
  * has paint (alpha > 0) show the cyanotype image; uncoated areas become paper
  * color. The mask edges are preserved exactly as drawn.

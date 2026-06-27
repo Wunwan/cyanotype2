@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ExposureStage from '../components/ExposureStage';
 import ProgressIndicator from '../components/ProgressIndicator';
+import BackButton from '../components/BackButton';
 import { PillButton } from '../components/PillButton';
 import { useFlow } from '../context/FlowContext';
 import { useObjectUrl } from '../hooks/useObjectUrl';
@@ -57,6 +58,7 @@ export default function Process() {
       className="relative h-full w-full overflow-hidden"
       style={{ backgroundImage: DARK_GRADIENT }}
     >
+      <BackButton light />
       {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.process)} />}
       <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
         One last rinse
