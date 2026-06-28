@@ -73,7 +73,7 @@ export default function ImagePreview() {
               <motion.button
                 type="button"
                 aria-label="Cyanotype print"
-                className="relative block w-full bg-[#d9d9d9]/30 p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]"
+                className="relative block w-full bg-white p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]"
                 style={{ zIndex: top === 'final' ? 2 : 1 }}
                 animate={top === 'final' ? TOP : BACK}
                 transition={{ type: 'spring', stiffness: 260, damping: 24 }}
@@ -84,7 +84,7 @@ export default function ImagePreview() {
               <motion.button
                 type="button"
                 aria-label="Original photo"
-                className="absolute inset-0 block w-full bg-[#d9d9d9]/30 p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]"
+                className="absolute inset-0 block w-full bg-white p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]"
                 style={{ zIndex: top === 'original' ? 2 : 1 }}
                 animate={top === 'original' ? TOP : BACK}
                 transition={{ type: 'spring', stiffness: 260, damping: 24 }}
