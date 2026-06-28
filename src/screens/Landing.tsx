@@ -35,7 +35,7 @@ export default function Landing() {
   };
 
   return (
-    <PaperBackground>
+    <PaperBackground bgColor="#CBCBCB">
       <div className="relative h-full w-full">
         {/* Logo placeholder (Figma node 870:900 — swap for the real mark). */}
         <div className="absolute left-7 top-[35px] grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40">

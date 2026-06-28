@@ -54,7 +54,7 @@ export default function Process() {
   }, []);
 
   return (
-    <PaperBackground bgColor="#CBCBCB" className="relative">
+    <PaperBackground bgColor="#FDFAEF" className="relative">
       <BackButton />
       {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.process)} />}
       <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
