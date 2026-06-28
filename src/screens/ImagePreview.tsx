@@ -20,12 +20,6 @@ export default function ImagePreview() {
     if (id) setPrint(getPrint(id));
   }, [id]);
 
-  const cards: { key: 'final' | 'original'; src: string }[] = print
-    ? [
-        { key: 'final', src: print.finalImage },
-        { key: 'original', src: print.originalImage },
-      ]
-    : [];
 
   const meta = print?.metadata;
 
@@ -67,31 +61,38 @@ export default function ImagePreview() {
           </div>
         )}
 
-        {/* Two stacked prints — tap the back one to bring it to the top. */}
-        <div className="absolute left-1/2 top-[232px] h-[300px] w-[232px] -translate-x-1/2">
-          {cards.map((c) => {
-            const isTop = c.key === top;
-            return (
-              <motion.button
-                key={c.key}
-                type="button"
-                aria-label={
-                  c.key === 'final' ? 'Cyanotype print' : 'Original photo'
-                }
-                className="absolute inset-0 grid place-items-center bg-bone p-2 shadow-[0_6px_16px_-8px_rgba(0,0,0,0.4)]"
-                animate={isTop ? TOP : BACK}
-                transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-                onClick={() => !isTop && setTop(c.key)}
-              >
-                <img
-                  src={c.src}
-                  alt=""
-                  draggable={false}
-                  className="max-h-full max-w-full object-contain"
-                />
-              </motion.button>
-            );
-          })}
+        {/* Two stacked prints — tap the back one to bring it to the top.
+            final is in normal flow (sets container height); original overlays
+            absolutely with the same dimensions. */}
+        <div className="absolute left-1/2 top-[195px] w-[294px] -translate-x-1/2">
+          <div className="relative">
+            {print && (
+              <>
+                <motion.button
+                  type="button"
+                  aria-label="Cyanotype print"
+                  className="relative block w-full bg-[#d9d9d9]/30 p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]"
+                  style={{ zIndex: top === 'final' ? 2 : 1 }}
+                  animate={top === 'final' ? TOP : BACK}
+                  transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+                  onClick={() => top !== 'final' && setTop('final')}
+                >
+                  <img src={print.finalImage} alt="" draggable={false} className="block w-full" />
+                </motion.button>
+                <motion.button
+                  type="button"
+                  aria-label="Original photo"
+                  className="absolute inset-0 block w-full bg-[#d9d9d9]/30 p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]"
+                  style={{ zIndex: top === 'original' ? 2 : 1 }}
+                  animate={top === 'original' ? TOP : BACK}
+                  transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+                  onClick={() => top !== 'original' && setTop('original')}
+                >
+                  <img src={print.originalImage} alt="" draggable={false} className="block w-full" />
+                </motion.button>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Read-only metadata */}
