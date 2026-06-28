@@ -46,7 +46,7 @@ export default function Negative() {
     ...positions.map((p) => PANEL.top + PANEL.h / 2 + p.dy + cardW / 2),
   );
   const lockDist = Math.max(60, lowestCardBottom - (BAR.top + BAR.h));
-  const maxDrag = 874 - (BAR.top + BAR.h);
+  const maxDrag = PANEL.top + PANEL.h - (BAR.top + BAR.h);
 
   const y = useMotionValue(0);
   const progress = useTransform(y, [0, lockDist], [0, 1]);

@@ -9,7 +9,6 @@ import { PillButton } from '../components/PillButton';
 import { useFlow } from '../context/FlowContext';
 import { useObjectUrl } from '../hooks/useObjectUrl';
 import { processCyanotype, processCyanotypeWithMask } from '../lib/imageProcessing';
-import { DARK_GRADIENT } from '../lib/theme';
 import { ROUTES, progressStep } from '../lib/flow';
 
 const SECONDS = 5;
@@ -55,11 +54,8 @@ export default function Process() {
   }, []);
 
   return (
-    <div
-      className="relative h-full w-full overflow-hidden"
-      style={{ backgroundImage: DARK_GRADIENT }}
-    >
-      <BackButton light />
+    <PaperBackground bgColor="#CBCBCB" className="relative">
+      <BackButton />
       {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.process)} />}
       <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
         One last rinse

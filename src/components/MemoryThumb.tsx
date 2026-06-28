@@ -103,12 +103,12 @@ export default function MemoryThumb({
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
-      <div className="bg-bone p-1.5 shadow-[1px_1px_6px_rgba(0,0,0,0.18)]">
+      <div className="bg-white p-1.5 shadow-[1px_1px_6px_rgba(0,0,0,0.18)]">
         <img
           src={print.finalImage}
           alt=""
           draggable={false}
-          className="block aspect-[4/5] w-full object-cover"
+          className="block aspect-[4/5] w-full object-cover bg-white"
         />
         {print.metadata.name && (
           <div className="truncate pt-1 text-center text-[10px] text-ink">

@@ -160,7 +160,7 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
       const len = Math.sqrt(dx * dx + dy * dy) || 1;
       const perpX = -dy / len;
       const perpY = dx / len;
-      const n = 6;
+      const n: number = 6;
       const halfSpread = lineW.current * 0.55;
       for (let i = 0; i < n; i++) {
         const t = n === 1 ? 0 : (i / (n - 1) - 0.5) * 2;
