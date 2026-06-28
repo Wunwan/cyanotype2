@@ -122,34 +122,34 @@ export default function Done() {
           )}
         </div>
 
-        {/* Click-to-edit metadata — grid with dividers */}
-        <div className="mt-7 w-[295px] border border-[#CBCBCB]">
-          <div className="flex items-baseline gap-2 border-b border-[#CBCBCB] px-2.5 py-1.5">
-            <span className="text-[11px] font-semibold text-[#214371]">name:</span>
+        {/* Click-to-edit metadata — styled to match the ImagePreview table */}
+        <div className="mt-7 w-[295px] border border-edge text-black">
+          <div className="flex items-baseline gap-2 border-b border-edge px-2.5 py-1.5">
+            <span className="text-[11px] font-semibold">name:</span>
             <div className="flex-1">
               <EditableField
                 value={metadata.name}
-                placeholder=""
+                placeholder="—"
                 onCommit={commitField('name')}
                 ariaLabel="Name"
               />
             </div>
           </div>
           <div className="grid grid-cols-2">
-            <div className="border-r border-[#CBCBCB] px-2.5 py-1.5">
-              <div className="text-[11px] font-semibold text-[#214371]">date:</div>
+            <div className="border-r border-edge px-2.5 py-1.5">
+              <div className="text-[11px] font-semibold">date:</div>
               <EditableField
                 value={metadata.date}
-                placeholder=""
+                placeholder="—"
                 onCommit={commitField('date')}
                 ariaLabel="Date"
               />
             </div>
             <div className="px-2.5 py-1.5">
-              <div className="text-[11px] font-semibold text-[#214371]">place:</div>
+              <div className="text-[11px] font-semibold">place:</div>
               <EditableField
                 value={metadata.place}
-                placeholder=""
+                placeholder="—"
                 onCommit={commitField('place')}
                 ariaLabel="Place"
               />
