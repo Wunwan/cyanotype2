@@ -155,7 +155,7 @@ export default function Done() {
         </div>
 
         {/* CTAs */}
-        <div className="mt-9 flex flex-col items-center gap-6">
+        <div className="mt-16 flex flex-col items-center gap-6">
           <PillButton className="w-[137px]" onClick={goMemory}>
             Memory lane
           </PillButton>
