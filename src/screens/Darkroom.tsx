@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Decoration from '../components/Decoration';
 import ProgressIndicator from '../components/ProgressIndicator';
+import BackButton from '../components/BackButton';
 import { PillButton } from '../components/PillButton';
 import { useFlow } from '../context/FlowContext';
 import { DARK_GRADIENT } from '../lib/theme';
@@ -44,6 +45,7 @@ export default function Darkroom() {
       className="relative h-full w-full overflow-hidden"
       style={{ backgroundImage: DARK_GRADIENT }}
     >
+      <BackButton light />
       {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.darkroom)} />}
       <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
         Brew in the darkroom

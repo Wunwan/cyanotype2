@@ -131,6 +131,108 @@ export async function invertImage(imageBlob: Blob): Promise<Blob> {
   });
 }
 
+const PAPER_COLOR = [252, 251, 246] as const;
+
+/**
+ * Lay out 1–5 images in a grid and return a single composited blob. Used
+ * before the cyanotype pipeline so multiple uploads are treated as one image.
+ */
+export async function compositeImages(blobs: Blob[]): Promise<Blob> {
+  if (blobs.length === 0) throw new Error('compositeImages: no images');
+  if (blobs.length === 1) return blobs[0];
+
+  const imgs = await Promise.all(blobs.map(blobToImage));
+  const cols = blobs.length <= 2 ? blobs.length : Math.ceil(Math.sqrt(blobs.length));
+  const rows = Math.ceil(blobs.length / cols);
+  const CELL = 600;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = CELL * cols;
+  canvas.height = CELL * rows;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return blobs[0];
+
+  ctx.fillStyle = `rgb(${PAPER_COLOR.join(',')})`;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  imgs.forEach((img, i) => {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const cx = col * CELL;
+    const cy = row * CELL;
+    const aspect = (img.naturalWidth || 1) / (img.naturalHeight || 1);
+    let dw = CELL;
+    let dh = CELL / aspect;
+    if (dh > CELL) { dh = CELL; dw = CELL * aspect; }
+    ctx.drawImage(img, cx + (CELL - dw) / 2, cy + (CELL - dh) / 2, dw, dh);
+  });
+
+  return new Promise((resolve) =>
+    canvas.toBlob((b) => resolve(b ?? blobs[0]), 'image/png'),
+  );
+}
+
+/**
+ * Like processCyanotype but applies a painted mask: only pixels where the mask
+ * has paint (alpha > 0) show the cyanotype image; uncoated areas become paper
+ * color. The mask edges are preserved exactly as drawn.
+ */
+export async function processCyanotypeWithMask(
+  imageBlob: Blob,
+  maskBlob: Blob,
+): Promise<Blob> {
+  const [img, maskImg] = await Promise.all([blobToImage(imageBlob), blobToImage(maskBlob)]);
+
+  const nw = img.naturalWidth || 800;
+  const nh = img.naturalHeight || 800;
+  const scale = Math.min(1, 2000 / Math.max(nw, nh));
+  const w = Math.max(1, Math.round(nw * scale));
+  const h = Math.max(1, Math.round(nh * scale));
+
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  if (!ctx) return processCyanotype(imageBlob);
+
+  ctx.drawImage(img, 0, 0, w, h);
+  const imgData = ctx.getImageData(0, 0, w, h);
+  const d = imgData.data;
+
+  // Negative + cyanotype tone mapping (same as processCyanotype).
+  for (let i = 0; i < d.length; i += 4) {
+    d[i] = 255 - d[i];
+    d[i + 1] = 255 - d[i + 1];
+    d[i + 2] = 255 - d[i + 2];
+  }
+  mapCyanotype(d, w, h);
+
+  // Sample the mask at the same resolution.
+  const mCanvas = document.createElement('canvas');
+  mCanvas.width = w;
+  mCanvas.height = h;
+  const mCtx = mCanvas.getContext('2d', { willReadFrequently: true });
+  if (!mCtx) {
+    ctx.putImageData(imgData, 0, 0);
+    return new Promise((resolve) => canvas.toBlob((out) => resolve(out ?? imageBlob), 'image/png'));
+  }
+  mCtx.drawImage(maskImg, 0, 0, w, h);
+  const maskData = mCtx.getImageData(0, 0, w, h).data;
+
+  // Where the mask has no paint, replace with paper color.
+  for (let i = 0; i < d.length; i += 4) {
+    if (maskData[i + 3] < 10) {
+      d[i] = PAPER_COLOR[0];
+      d[i + 1] = PAPER_COLOR[1];
+      d[i + 2] = PAPER_COLOR[2];
+      d[i + 3] = 255;
+    }
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+  return new Promise((resolve) => canvas.toBlob((out) => resolve(out ?? imageBlob), 'image/png'));
+}
+
 /**
  * Downscale an image and return a compressed JPEG data URL. Keeps localStorage
  * usage sane — full-resolution phone photos as base64 quickly blow the ~5MB

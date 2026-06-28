@@ -4,17 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import ExposureStage from '../components/ExposureStage';
 import PaperBackground from '../components/PaperBackground';
 import ProgressIndicator from '../components/ProgressIndicator';
+import BackButton from '../components/BackButton';
 import { PillButton } from '../components/PillButton';
 import { useFlow } from '../context/FlowContext';
 import { useObjectUrl } from '../hooks/useObjectUrl';
-import { processCyanotype } from '../lib/imageProcessing';
+import { processCyanotype, processCyanotypeWithMask } from '../lib/imageProcessing';
+import { DARK_GRADIENT } from '../lib/theme';
 import { ROUTES, progressStep } from '../lib/flow';
 
 const SECONDS = 5;
 
 export default function Process() {
   const navigate = useNavigate();
-  const { flowMode, userImage, negativeImage, finalPrint, setFinalPrint } = useFlow();
+  const { flowMode, userImage, negativeImage, paintedMask, finalPrint, setFinalPrint } = useFlow();
 
   // Full users expose the negative; express users the original.
   const inputUrl = useObjectUrl(negativeImage ?? userImage);
@@ -28,7 +30,9 @@ export default function Process() {
     let cancelled = false;
     (async () => {
       if (!userImage) return;
-      const out = await processCyanotype(userImage);
+      const out = paintedMask
+        ? await processCyanotypeWithMask(userImage, paintedMask)
+        : await processCyanotype(userImage);
       if (!cancelled) setFinalPrint(out);
     })();
     return () => {
@@ -51,7 +55,11 @@ export default function Process() {
   }, []);
 
   return (
-    <PaperBackground bgColor="#CBCBCB" className="relative">
+    <div
+      className="relative h-full w-full overflow-hidden"
+      style={{ backgroundImage: DARK_GRADIENT }}
+    >
+      <BackButton light />
       {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.process)} />}
       <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
         One last rinse

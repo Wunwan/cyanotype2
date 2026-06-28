@@ -11,7 +11,8 @@ export type FlowMode = 'full' | 'express' | null;
 
 interface FlowState {
   flowMode: FlowMode;
-  userImage: Blob | null;
+  userImages: Blob[];       // individual uploads (1–5)
+  userImage: Blob | null;   // composite of all userImages (set by Negative screen)
   negativeImage: Blob | null;
   paintedMask: Blob | null;
   finalPrint: Blob | null;
@@ -20,12 +21,12 @@ interface FlowState {
 
 interface FlowContextValue extends FlowState {
   setFlowMode: (mode: FlowMode) => void;
+  setUserImages: (blobs: Blob[]) => void;
   setUserImage: (blob: Blob | null) => void;
   setNegativeImage: (blob: Blob | null) => void;
   setPaintedMask: (blob: Blob | null) => void;
   setFinalPrint: (blob: Blob | null) => void;
   setMetadata: (meta: PrintMetadata) => void;
-  /** Wipe the in-progress print and start over (used by "Make another"). */
   resetFlow: () => void;
 }
 
@@ -35,6 +36,7 @@ const FlowContext = createContext<FlowContextValue | null>(null);
 
 export function FlowProvider({ children }: { children: ReactNode }) {
   const [flowMode, setFlowMode] = useState<FlowMode>(null);
+  const [userImages, setUserImages] = useState<Blob[]>([]);
   const [userImage, setUserImage] = useState<Blob | null>(null);
   const [negativeImage, setNegativeImage] = useState<Blob | null>(null);
   const [paintedMask, setPaintedMask] = useState<Blob | null>(null);
@@ -44,12 +46,14 @@ export function FlowProvider({ children }: { children: ReactNode }) {
   const value = useMemo<FlowContextValue>(
     () => ({
       flowMode,
+      userImages,
       userImage,
       negativeImage,
       paintedMask,
       finalPrint,
       metadata,
       setFlowMode,
+      setUserImages,
       setUserImage,
       setNegativeImage,
       setPaintedMask,
@@ -57,6 +61,7 @@ export function FlowProvider({ children }: { children: ReactNode }) {
       setMetadata,
       resetFlow: () => {
         setFlowMode(null);
+        setUserImages([]);
         setUserImage(null);
         setNegativeImage(null);
         setPaintedMask(null);
@@ -64,7 +69,7 @@ export function FlowProvider({ children }: { children: ReactNode }) {
         setMetadata(emptyMetadata);
       },
     }),
-    [flowMode, userImage, negativeImage, paintedMask, finalPrint, metadata],
+    [flowMode, userImages, userImage, negativeImage, paintedMask, finalPrint, metadata],
   );
 
   return <FlowContext.Provider value={value}>{children}</FlowContext.Provider>;

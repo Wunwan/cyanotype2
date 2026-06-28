@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PaperBackground from '../components/PaperBackground';
 import ProgressIndicator from '../components/ProgressIndicator';
+import BackButton from '../components/BackButton';
 import { useFlow } from '../context/FlowContext';
 import { ROUTES, nextRoute, progressStep } from '../lib/flow';
 
@@ -17,12 +18,15 @@ const FALLING_BUTTONS = [
 export default function Upload() {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
-  const { flowMode, setUserImage } = useFlow();
+  const { flowMode, setUserImages, setUserImage } = useFlow();
 
   const onPick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUserImage(file);
+    const files = Array.from(e.target.files ?? []).slice(0, 5);
+    if (files.length === 0) return;
+    setUserImages(files);
+    // Express mode skips Negative (where the composite is normally built),
+    // so use the first image directly as userImage.
+    if (flowMode === 'express') setUserImage(files[0]);
     const next = nextRoute(ROUTES.upload, flowMode);
     if (next) navigate(next);
   };
@@ -30,6 +34,7 @@ export default function Upload() {
   return (
     <PaperBackground>
       <div className="relative h-full w-full">
+        <BackButton />
         {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.upload)} />}
 
         <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
@@ -107,13 +112,17 @@ export default function Upload() {
             className="absolute flex -translate-x-1/2 flex-col items-center gap-[15px]"
             style={{ left: 'calc(50% + 3.5px)', top: 374 }}
           >
-            <img
-              src="/assets/icon-upload.svg"
-              alt=""
-              aria-hidden
-              className="block size-[26px]"
-            />
-            <span className="text-[14px] text-ink">Upload image</span>
+            {/* Icon sits in a 43×43 slot with 8.33% padding on each side */}
+            <span className="relative size-[43px]">
+              <img
+                src="/assets/icon-upload.svg"
+                alt=""
+                aria-hidden
+                className="absolute inset-[8.33%] block w-full h-full"
+              />
+            </span>
+            <span className="text-[16px] text-ink">Upload images</span>
+            <span className="text-[12px] text-ink/50">up to 5</span>
           </button>
         </motion.div>
 
@@ -151,6 +160,7 @@ export default function Upload() {
           ref={inputRef}
           type="file"
           accept="image/*"
+          multiple
           className="hidden"
           onChange={onPick}
         />
