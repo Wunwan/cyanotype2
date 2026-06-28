@@ -34,17 +34,24 @@ export default function ImagePreview() {
     <PaperBackground>
       <div className="flex h-full w-full flex-col">
 
-        {/* Top bar: logo left, Memory Lane right */}
-        <div className="flex shrink-0 items-start justify-between px-7 pt-[25px]">
-          <button
-            type="button"
-            onClick={() => navigate(ROUTES.landing)}
-            aria-label="Go to home"
-            className="mt-[10px] grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40"
-          >
-            logo
-          </button>
-          <div className="flex flex-col items-end gap-5">
+        {/* Top bar: logo + save left/right, Memory Lane title below */}
+        <div className="flex shrink-0 flex-col px-7 pt-[25px]">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => navigate(ROUTES.landing)}
+              aria-label="Go to home"
+              className="grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40"
+            >
+              logo
+            </button>
+            {print && (
+              <PillButton onClick={saveImage} aria-label="Save image to device">
+                save
+              </PillButton>
+            )}
+          </div>
+          <div className="mt-3 flex justify-end">
             <button
               type="button"
               onClick={() => navigate(ROUTES.memory)}
@@ -57,16 +64,11 @@ export default function ImagePreview() {
                 lane
               </h1>
             </button>
-            {print && (
-              <PillButton onClick={saveImage} aria-label="Save image to device">
-                save
-              </PillButton>
-            )}
           </div>
         </div>
 
-        {/* Center: image + metadata */}
-        <div className="flex flex-1 flex-col items-center justify-center gap-10 overflow-hidden px-4 py-4">
+        {/* Center: image + metadata — overflow-visible so rotated print edges aren't clipped */}
+        <div className="flex flex-1 flex-col items-center justify-center gap-6 px-4 py-6">
           {/* Two stacked prints — final in flow sets height; original overlays absolutely */}
           {print && (
             <div className="relative w-[294px]">
@@ -121,7 +123,7 @@ export default function ImagePreview() {
         </div>
 
         {/* Bottom actions */}
-        <div className="flex shrink-0 items-center justify-between px-7 pb-[60px]">
+        <div className="flex shrink-0 items-center justify-between px-7 pb-[80px]">
           <button
             type="button"
             onClick={() => { if (id) deletePrint(id); navigate(ROUTES.memory); }}
