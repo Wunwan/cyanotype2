@@ -90,9 +90,9 @@ export default function Negative() {
               className="absolute overflow-hidden rounded-[2px] shadow-[0_4px_8px_rgba(0,0,0,0.22)]"
               style={{
                 width: cardW,
-                height: cardW,
                 left: PANEL.left + PANEL.w / 2 + pos.dx - cardW / 2,
-                top: PANEL.top + PANEL.h / 2 + pos.dy - cardW / 2,
+                top: PANEL.top + PANEL.h / 2 + pos.dy,
+                y: '-50%',
                 rotate: pos.r,
                 filter,
                 zIndex: i + 1,
@@ -104,7 +104,7 @@ export default function Negative() {
               <img
                 src={url}
                 alt=""
-                className="h-full w-full object-cover"
+                className="block w-full h-auto"
                 draggable={false}
               />
             </motion.div>
