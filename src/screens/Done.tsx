@@ -91,7 +91,7 @@ export default function Done() {
       <div className="relative flex flex-col items-center px-7 pb-20">
         {/* Single viewport block. Logo/caption/save are absolutely positioned so
             they don't offset the flex centering of the image+metadata+CTAs. */}
-        <div className="relative flex min-h-[874px] w-full flex-col items-center justify-center py-8">
+        <div className="relative flex min-h-[874px] w-full flex-col items-center justify-center pt-[160px] pb-8">
 
         {/* Logo + caption + save — absolute so they sit at the top without
             pushing the centered content down */}
