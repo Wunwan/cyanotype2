@@ -91,13 +91,13 @@ export default function Done() {
       <div className="relative flex flex-col items-center px-7 pb-20">
         {/* First viewport: image, metadata and actions, vertically centered.
             The closing note is pushed below the fold (only appears on scroll). */}
-        <div className="flex min-h-[874px] w-full flex-col items-center justify-center py-8">
+        <div className="flex min-h-[874px] w-full flex-col items-center pt-[35px] pb-8">
         {/* Logo + caption + save */}
         <div className="grid h-[31px] w-[53px] place-items-center self-start rounded-[2px] bg-black/5 text-[12px] text-ink/40">
           logo
         </div>
 
-        <div className="mt-8 flex w-full items-start justify-between">
+        <div className="mt-6 flex w-full items-start justify-between">
           <p className="copy text-[16px] text-ink">
             bathed in the sun,
             <br />
@@ -120,12 +120,13 @@ export default function Done() {
         </div>
 
         {/* Click-to-edit metadata — grid with dividers */}
-        <div className="mt-7 w-[295px] border border-[#CBCBCB]">
+        <div className="mt-12 w-[295px] border border-[#CBCBCB]">
           <div className="flex items-baseline gap-2 border-b border-[#CBCBCB] px-2.5 py-1.5">
             <span className="text-[11px] font-semibold text-[#214371]">name:</span>
             <div className="flex-1">
               <EditableField
                 value={metadata.name}
+                placeholder=""
                 onCommit={commitField('name')}
                 ariaLabel="Name"
               />
@@ -136,6 +137,7 @@ export default function Done() {
               <div className="text-[11px] font-semibold text-[#214371]">date:</div>
               <EditableField
                 value={metadata.date}
+                placeholder=""
                 onCommit={commitField('date')}
                 ariaLabel="Date"
               />
@@ -144,6 +146,7 @@ export default function Done() {
               <div className="text-[11px] font-semibold text-[#214371]">place:</div>
               <EditableField
                 value={metadata.place}
+                placeholder=""
                 onCommit={commitField('place')}
                 ariaLabel="Place"
               />
