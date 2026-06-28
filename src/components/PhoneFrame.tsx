@@ -19,8 +19,11 @@ export default function PhoneFrame({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const update = () => {
-      const vw = window.visualViewport?.width ?? window.innerWidth;
-      const vh = window.visualViewport?.height ?? window.innerHeight;
+      // Use innerWidth/innerHeight (layout viewport) — stable when keyboard appears.
+      // visualViewport shrinks for the keyboard; innerHeight does not (especially
+      // with interactive-widget=resizes-visual in the viewport meta tag).
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
       const scale = Math.min(vw / SCREEN_W, vh / SCREEN_H);
 
       if (outerRef.current) {
@@ -28,8 +31,6 @@ export default function PhoneFrame({ children }: { children: ReactNode }) {
         outerRef.current.style.height = `${vh}px`;
       }
       if (innerRef.current) {
-        // Position so the scaled frame is centered in the viewport.
-        // transformOrigin: top left — scale expands rightward/downward.
         innerRef.current.style.left = `${(vw - SCREEN_W * scale) / 2}px`;
         innerRef.current.style.top = `${(vh - SCREEN_H * scale) / 2}px`;
         innerRef.current.style.transform = `scale(${scale})`;
@@ -37,12 +38,10 @@ export default function PhoneFrame({ children }: { children: ReactNode }) {
     };
 
     update();
-    window.visualViewport?.addEventListener('resize', update);
+    // window resize fires on orientation change but NOT on keyboard on iOS.
+    // On Android, interactive-widget=resizes-visual prevents it firing for keyboard too.
     window.addEventListener('resize', update);
-    return () => {
-      window.visualViewport?.removeEventListener('resize', update);
-      window.removeEventListener('resize', update);
-    };
+    return () => window.removeEventListener('resize', update);
   }, []);
 
   return (
