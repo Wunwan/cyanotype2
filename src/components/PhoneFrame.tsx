@@ -12,13 +12,18 @@ export const SCREEN_H = 874;
  */
 export default function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="grid h-full w-full place-items-center overflow-hidden bg-cream">
+    <div
+      className="grid w-full place-items-center overflow-hidden bg-cream"
+      style={{ height: '100dvh' }}
+    >
       <div
         className="relative"
         style={{
           width: SCREEN_W,
           height: SCREEN_H,
-          ['--scale' as string]: 'min(calc(100vw / 402), calc(100vh / 874))',
+          // dvh accounts for the mobile browser address bar; subtract 24px for
+          // breathing room so the frame is never flush against the screen edge.
+          ['--scale' as string]: 'min(calc(100vw / 402), calc((100dvh - 24px) / 874))',
           transform: 'scale(var(--scale))',
           transformOrigin: 'center center',
         }}
