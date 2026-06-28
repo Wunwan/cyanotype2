@@ -66,7 +66,7 @@ export default function ImagePreview() {
         </div>
 
         {/* Center: image + metadata */}
-        <div className="flex flex-1 flex-col items-center justify-center gap-6 overflow-hidden px-4 py-4">
+        <div className="flex flex-1 flex-col items-center justify-center gap-10 overflow-hidden px-4 py-4">
           {/* Two stacked prints — final in flow sets height; original overlays absolutely */}
           {print && (
             <div className="relative w-[294px]">
