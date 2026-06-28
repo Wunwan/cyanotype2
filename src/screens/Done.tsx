@@ -89,10 +89,13 @@ export default function Done() {
   return (
     <div className="paper-bg relative min-h-full w-full">
       <div className="relative flex flex-col items-center px-7 pb-20">
-        {/* First viewport: image, metadata and actions, vertically centered.
-            The closing note is pushed below the fold (only appears on scroll). */}
-        {/* Top: logo + caption + save — pinned to top of the viewport */}
-        <div className="w-full pt-[35px]">
+        {/* Single viewport block. Logo/caption/save are absolutely positioned so
+            they don't offset the flex centering of the image+metadata+CTAs. */}
+        <div className="relative flex min-h-[874px] w-full flex-col items-center justify-center py-8">
+
+        {/* Logo + caption + save — absolute so they sit at the top without
+            pushing the centered content down */}
+        <div className="absolute left-0 right-0 top-[35px]">
           <div className="grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40">
             logo
           </div>
@@ -107,9 +110,6 @@ export default function Done() {
             </PillButton>
           </div>
         </div>
-
-        {/* Rest: image + metadata + CTAs — vertically centered in remaining space */}
-        <div className="flex min-h-[874px] w-full flex-col items-center justify-center py-8">
 
         {/* The finished print */}
         <div className="w-[294px] bg-[#d9d9d9]/30 p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
@@ -164,7 +164,7 @@ export default function Done() {
           </PillButton>
           <TextLink onClick={makeAnother}>Make another</TextLink>
         </div>
-        </div>{/* end centered section */}
+        </div>{/* end single viewport block */}
         {/* ── below the fold ── */}
 
         {/* Closing note */}
