@@ -56,9 +56,14 @@ export default function Memory() {
   return (
     <PaperBackground>
       <div className="relative h-full w-full">
-        <div className="absolute left-7 top-[35px] grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40">
+        <button
+          type="button"
+          onClick={() => navigate(ROUTES.landing)}
+          aria-label="Go to home"
+          className="absolute left-7 top-[35px] grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40"
+        >
           logo
-        </div>
+        </button>
 
         <header className="absolute right-7 top-[25px] text-right">
           <h1 className="font-serif-display text-[48px] leading-[0.95] text-ink">
