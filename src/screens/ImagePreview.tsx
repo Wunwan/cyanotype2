@@ -44,7 +44,7 @@ export default function ImagePreview() {
           >
             logo
           </button>
-          <div className="flex flex-col items-end gap-2">
+          <div className="flex flex-col items-end gap-5">
             <button
               type="button"
               onClick={() => navigate(ROUTES.memory)}
