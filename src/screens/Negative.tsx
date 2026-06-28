@@ -5,7 +5,7 @@ import {
   useMotionValueEvent,
   useTransform,
 } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PaperBackground from '../components/PaperBackground';
 import ProgressIndicator from '../components/ProgressIndicator';
@@ -37,6 +37,19 @@ export default function Negative() {
   const imageUrls = useObjectUrls(userImages);
   const [locked, setLocked] = useState(false);
 
+  // Pre-compute composite + negative in the background while the user does
+  // the drag gesture, so "done" can navigate without any delay.
+  const preparedRef = useRef<Promise<{ composite: Blob; neg: Blob }> | null>(null);
+  useEffect(() => {
+    if (userImages.length === 0) return;
+    preparedRef.current = (async () => {
+      const composite = await compositeImages(userImages);
+      const neg = await invertImage(composite);
+      return { composite, neg };
+    })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const count = Math.max(1, userImages.length);
   const cardW = CARD_SIZE[count - 1];
   const positions = SCATTER[count - 1];
@@ -57,10 +70,9 @@ export default function Negative() {
   });
 
   const onDone = async () => {
-    if (userImages.length > 0) {
-      const composite = await compositeImages(userImages);
+    if (userImages.length > 0 && preparedRef.current) {
+      const { composite, neg } = await preparedRef.current;
       setUserImage(composite);
-      const neg = await invertImage(composite);
       setNegativeImage(neg);
     }
     navigate(ROUTES.coat);
