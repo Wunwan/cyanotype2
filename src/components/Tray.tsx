@@ -40,23 +40,28 @@ export default function Tray({
   const H = portrait ? W * ASPECT : W / ASPECT;
   const inset = INNER[orientation];
 
+  const noSelect: React.CSSProperties = { WebkitTouchCallout: 'none', userSelect: 'none' };
+
   return (
-    <div className="relative" style={{ width: W, height: H }}>
+    <div className="relative select-none" style={{ width: W, height: H }}>
       {/* Tray frame — fills the footprint; rotated for portrait. */}
       {portrait ? (
         <img
           src="/assets/silver-tray-trim.webp"
           alt=""
           aria-hidden
+          draggable={false}
           className="absolute left-1/2 top-1/2 max-w-none"
-          style={{ width: H, height: W, transform: 'translate(-50%, -50%) rotate(90deg)' }}
+          style={{ width: H, height: W, transform: 'translate(-50%, -50%) rotate(90deg)', ...noSelect }}
         />
       ) : (
         <img
           src="/assets/silver-tray-trim.webp"
           alt=""
           aria-hidden
+          draggable={false}
           className="absolute inset-0 h-full w-full"
+          style={noSelect}
         />
       )}
 
@@ -75,7 +80,7 @@ export default function Tray({
             src={imageUrl}
             alt="Your photo"
             className="h-full w-full object-contain"
-            style={imageStyle}
+            style={{ ...imageStyle, ...noSelect }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: photoFadeDelay }}

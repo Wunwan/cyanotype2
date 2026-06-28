@@ -99,7 +99,8 @@ export default function StickerLayer({ className = '' }: { className?: string })
   return (
     <div
       ref={layerRef}
-      className={`touch-none ${className}`}
+      className={`touch-none select-none ${className}`}
+      style={{ WebkitTouchCallout: 'none' }}
       onContextMenu={(e) => e.preventDefault()}
       onPointerDown={onLayerPointerDown}
       onPointerMove={onStickerMove}

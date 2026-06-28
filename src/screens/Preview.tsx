@@ -91,8 +91,8 @@ function MultiGrid({ urls }: { urls: string[] }) {
             src={url}
             alt=""
             draggable={false}
-            className="h-full w-full object-cover"
-            style={{ gridColumn: spanFull ? `span ${cols}` : undefined }}
+            className="h-full w-full object-cover select-none"
+            style={{ gridColumn: spanFull ? `span ${cols}` : undefined, WebkitTouchCallout: 'none', userSelect: 'none' }}
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.35, delay: i * 0.08 + 0.2 }}
