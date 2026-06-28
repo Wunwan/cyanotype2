@@ -87,20 +87,18 @@ export default function Done() {
   };
 
   return (
-    <div className="paper-bg relative min-h-full w-full">
-      <div className="relative flex flex-col items-center px-7 pb-20">
-        {/* Single viewport block. Logo/caption/save are absolutely positioned so
-            they don't offset the flex centering of the image+metadata+CTAs. */}
-        <div className="relative flex min-h-[874px] w-full flex-col items-center justify-center pt-[160px] pb-8">
+    <div className="paper-bg min-h-full w-full">
 
-        {/* Logo + caption + save — absolute so they sit at the top without
-            pushing the centered content down */}
-        <div className="absolute left-0 right-0 top-[35px]">
-          <div className="grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40">
+      {/* ── First viewport — mirrors ImagePreview layout ── */}
+      <div className="flex h-[874px] w-full flex-col px-7">
+
+        {/* Top bar: logo left, caption + save right */}
+        <div className="flex shrink-0 items-start justify-between pt-[25px]">
+          <div className="mt-[10px] grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40">
             logo
           </div>
-          <div className="mt-6 flex w-full items-start justify-between">
-            <p className="copy text-[16px] text-ink">
+          <div className="flex flex-col items-end gap-5">
+            <p className="copy text-right text-[16px] text-ink">
               bathed in the sun,
               <br />
               vibrant in Persian blue.
@@ -111,63 +109,48 @@ export default function Done() {
           </div>
         </div>
 
-        {/* The finished print */}
-        <div className="w-[294px] bg-[#d9d9d9]/30 p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
-          {url ? (
-            <img src={url} alt="Your finished cyanotype" className="block w-full" />
-          ) : (
-            <div className="grid h-[360px] place-items-center text-[14px] text-ink/40">
-              your print
-            </div>
-          )}
-        </div>
-
-        {/* Click-to-edit metadata — styled to match the ImagePreview table */}
-        <div className="mt-7 w-[295px] border border-edge text-black">
-          <div className="flex items-baseline gap-2 border-b border-edge px-2.5 py-1.5">
-            <span className="text-[11px] font-semibold">name:</span>
-            <div className="flex-1">
-              <EditableField
-                value={metadata.name}
-                placeholder="—"
-                onCommit={commitField('name')}
-                ariaLabel="Name"
-              />
-            </div>
+        {/* Center: image + editable metadata */}
+        <div className="flex flex-1 flex-col items-center justify-center gap-10 overflow-hidden py-4">
+          <div className="w-[294px] bg-white p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
+            {url ? (
+              <img src={url} alt="Your finished cyanotype" className="block w-full" />
+            ) : (
+              <div className="grid h-[360px] place-items-center text-[14px] text-ink/40">
+                your print
+              </div>
+            )}
           </div>
-          <div className="grid grid-cols-2">
-            <div className="border-r border-edge px-2.5 py-1.5">
-              <div className="text-[11px] font-semibold">date:</div>
-              <EditableField
-                value={metadata.date}
-                placeholder="—"
-                onCommit={commitField('date')}
-                ariaLabel="Date"
-              />
+
+          <div className="w-[295px] border border-edge text-black">
+            <div className="flex items-baseline gap-2 border-b border-edge px-2.5 py-1.5">
+              <span className="text-[11px] font-semibold">name:</span>
+              <div className="flex-1">
+                <EditableField value={metadata.name} placeholder="—" onCommit={commitField('name')} ariaLabel="Name" />
+              </div>
             </div>
-            <div className="px-2.5 py-1.5">
-              <div className="text-[11px] font-semibold">place:</div>
-              <EditableField
-                value={metadata.place}
-                placeholder="—"
-                onCommit={commitField('place')}
-                ariaLabel="Place"
-              />
+            <div className="grid grid-cols-2">
+              <div className="border-r border-edge px-2.5 py-1.5">
+                <div className="text-[11px] font-semibold">date:</div>
+                <EditableField value={metadata.date} placeholder="—" onCommit={commitField('date')} ariaLabel="Date" />
+              </div>
+              <div className="px-2.5 py-1.5">
+                <div className="text-[11px] font-semibold">place:</div>
+                <EditableField value={metadata.place} placeholder="—" onCommit={commitField('place')} ariaLabel="Place" />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* CTAs */}
-        <div className="mt-9 flex flex-col items-center gap-6">
-          <PillButton className="w-[137px]" onClick={goMemory}>
-            Memory lane
-          </PillButton>
+        {/* Bottom bar: Memory lane left, Make another right */}
+        <div className="flex shrink-0 items-center justify-between pb-[60px]">
+          <PillButton onClick={goMemory}>Memory lane</PillButton>
           <TextLink onClick={makeAnother}>Make another</TextLink>
         </div>
-        </div>{/* end single viewport block */}
-        {/* ── below the fold ── */}
 
-        {/* Closing note */}
+      </div>
+
+      {/* ── Below the fold ── */}
+      <div className="flex flex-col items-center px-7 pb-20">
         <p className="copy mt-16 w-[266px] text-center text-[14px] text-ink">
           We love seeing people discover the slow, analog process of cyanotype
           printing—made more accessible through technology, without losing its magic.
@@ -191,6 +174,7 @@ export default function Done() {
           className="mt-4 w-[114px]"
         />
       </div>
+
     </div>
   );
 }
