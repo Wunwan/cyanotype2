@@ -24,7 +24,8 @@ export default function PhoneFrame({ children }: { children: ReactNode }) {
       // with interactive-widget=resizes-visual in the viewport meta tag).
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const scale = Math.min(vw / SCREEN_W, vh / SCREEN_H);
+      // Portrait: fill width edge-to-edge. Landscape: fill height edge-to-edge.
+      const scale = vw <= vh ? vw / SCREEN_W : vh / SCREEN_H;
 
       if (outerRef.current) {
         outerRef.current.style.width = `${vw}px`;
