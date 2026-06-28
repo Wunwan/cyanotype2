@@ -122,7 +122,7 @@ export default function Done() {
         {/* Click-to-edit metadata — grid with dividers */}
         <div className="mt-7 w-[295px] border border-[#CBCBCB]">
           <div className="flex items-baseline gap-2 border-b border-[#CBCBCB] px-2.5 py-1.5">
-            <span className="text-[11px] font-semibold text-[#CBCBCB]">name:</span>
+            <span className="text-[11px] font-semibold text-[#214371]">name:</span>
             <div className="flex-1">
               <EditableField
                 value={metadata.name}
@@ -133,7 +133,7 @@ export default function Done() {
           </div>
           <div className="grid grid-cols-2">
             <div className="border-r border-[#CBCBCB] px-2.5 py-1.5">
-              <div className="text-[11px] font-semibold text-[#CBCBCB]">date:</div>
+              <div className="text-[11px] font-semibold text-[#214371]">date:</div>
               <EditableField
                 value={metadata.date}
                 onCommit={commitField('date')}
@@ -141,7 +141,7 @@ export default function Done() {
               />
             </div>
             <div className="px-2.5 py-1.5">
-              <div className="text-[11px] font-semibold text-[#CBCBCB]">place:</div>
+              <div className="text-[11px] font-semibold text-[#214371]">place:</div>
               <EditableField
                 value={metadata.place}
                 onCommit={commitField('place')}

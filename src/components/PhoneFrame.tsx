@@ -18,7 +18,6 @@ export default function PhoneFrame({ children }: { children: ReactNode }) {
         style={{
           width: SCREEN_W,
           height: SCREEN_H,
-          // Fill the viewport (scale up or down) while keeping the aspect ratio.
           ['--scale' as string]: 'min(calc(100vw / 402), calc(100vh / 874))',
           transform: 'scale(var(--scale))',
           transformOrigin: 'center center',

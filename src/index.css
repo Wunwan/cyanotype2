@@ -49,6 +49,8 @@ html,
 body,
 #root {
   height: 100%;
+  overflow: hidden; /* prevent 402px layout frame from scrolling on narrow screens */
+  max-width: 100%;
 }
 
 body {
