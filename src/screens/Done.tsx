@@ -81,7 +81,8 @@ export default function Done() {
     navigate(ROUTES.memory);
   };
 
-  const makeAnother = () => {
+  const makeAnother = async () => {
+    if (!saved) await persist(metadata);
     resetFlow();
     navigate(ROUTES.landing);
   };
