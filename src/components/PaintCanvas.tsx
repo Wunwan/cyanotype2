@@ -137,11 +137,13 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
         ctx.fill();
       }
       ctx.globalAlpha = 1;
-    } else {
+    } else if (brushTypeRef.current === 'brush') {
       ctx.beginPath();
       ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
       ctx.fill();
     }
+    // bristle: no initial dot — direction is unknown on pointer-down so the
+    // first move segment handles the starting mark naturally.
   };
 
   const drawSegment = (
