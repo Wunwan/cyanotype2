@@ -38,28 +38,6 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <>
-      {/* Hand-drawn brush-stroke wobble used by pill-button strokes.
-          turbulence + 4 octaves + scale=9 → irregular, organic brush edge. */}
-      <svg width="0" height="0" className="absolute" aria-hidden focusable="false">
-        <filter id="ink-wobble" x="-30%" y="-30%" width="160%" height="160%">
-          <feTurbulence
-            type="turbulence"
-            baseFrequency="0.016 0.022"
-            numOctaves="4"
-            seed="11"
-            result="noise"
-          />
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="noise"
-            scale="9"
-            xChannelSelector="R"
-            yChannelSelector="G"
-            result="displaced"
-          />
-          <feGaussianBlur in="displaced" stdDeviation="0.35" />
-        </filter>
-      </svg>
       <PhoneFrame>
         <AnimatedRoutes />
       </PhoneFrame>

@@ -7,12 +7,17 @@ import type { ReactNode } from 'react';
 export default function PaperBackground({
   children,
   className = '',
+  bgColor,
 }: {
   children?: ReactNode;
   className?: string;
+  bgColor?: string;
 }) {
   return (
-    <div className={`paper-bg h-full w-full overflow-hidden ${className}`}>
+    <div
+      className={`paper-bg h-full w-full overflow-hidden ${className}`}
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       {children}
     </div>
   );

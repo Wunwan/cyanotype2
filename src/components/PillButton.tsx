@@ -33,14 +33,8 @@ export function PillButton({
       aria-label={ariaLabel}
       whileTap={disabled ? undefined : tap}
       transition={spring}
-      className={`relative inline-flex min-h-[44px] items-center justify-center rounded-full px-5 py-2.5 text-center text-[16px] leading-none text-ink transition-opacity disabled:opacity-40 ${className}`}
+      className={`relative inline-flex min-h-[44px] items-center justify-center rounded-full border border-edge px-5 py-2.5 text-center text-[16px] leading-none text-ink transition-opacity disabled:opacity-40 ${className}`}
     >
-      {/* Thicker, hand-drawn wavy stroke (inkbleed wobble filter). */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-full border-2 border-edge"
-        style={{ filter: 'url(#ink-wobble)' }}
-      />
       <span className="relative" style={textColor ? { color: textColor } : undefined}>{children}</span>
     </motion.button>
   );

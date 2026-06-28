@@ -39,8 +39,8 @@ export default function Negative() {
 
   // Invert completes once the bar's bottom reaches the photo's bottom edge…
   const lockDist = Math.max(60, img.top + img.h - (BAR.top + BAR.h));
-  // …but the bar can keep dragging all the way to the bottom edge of the frame.
-  const maxDrag = 874 - (BAR.top + BAR.h);
+  // …bar stops when its bottom reaches the panel bottom edge (not the screen).
+  const maxDrag = PANEL.top + PANEL.h - (BAR.top + BAR.h);
   const y = useMotionValue(0);
   const progress = useTransform(y, [0, lockDist], [0, 1]);
   const filter = useMotionTemplate`invert(${progress})`;

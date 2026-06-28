@@ -2,12 +2,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ExposureStage from '../components/ExposureStage';
+import PaperBackground from '../components/PaperBackground';
 import ProgressIndicator from '../components/ProgressIndicator';
 import { PillButton } from '../components/PillButton';
 import { useFlow } from '../context/FlowContext';
 import { useObjectUrl } from '../hooks/useObjectUrl';
 import { processCyanotype } from '../lib/imageProcessing';
-import { DARK_GRADIENT } from '../lib/theme';
 import { ROUTES, progressStep } from '../lib/flow';
 
 const SECONDS = 5;
@@ -51,10 +51,7 @@ export default function Process() {
   }, []);
 
   return (
-    <div
-      className="relative h-full w-full overflow-hidden"
-      style={{ backgroundImage: DARK_GRADIENT }}
-    >
+    <PaperBackground bgColor="#CBCBCB" className="relative">
       {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.process)} />}
       <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
         One last rinse
@@ -65,10 +62,10 @@ export default function Process() {
         <ExposureStage inputUrl={inputUrl} finalUrl={finalUrl} />
       </div>
 
-      <p className="absolute left-1/2 top-[699px] -translate-x-1/2 whitespace-nowrap text-[16px] text-bone-2">
+      <p className="absolute left-1/2 top-[699px] -translate-x-1/2 whitespace-nowrap text-[16px] text-ink">
         {count} second{count === 1 ? '' : 's'} remaining
       </p>
-      <p className="copy absolute left-1/2 top-[729px] w-[297px] -translate-x-1/2 text-center text-[20px] text-bone-2">
+      <p className="copy absolute left-1/2 top-[729px] w-[297px] -translate-x-1/2 text-center text-[20px] text-ink">
         The print is turning Persian blue.
       </p>
 
@@ -80,13 +77,13 @@ export default function Process() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 400, damping: 12 }}
             >
-              <PillButton textColor="#FFFDF9" onClick={() => navigate(ROUTES.done)}>
+              <PillButton onClick={() => navigate(ROUTES.done)}>
                 next
               </PillButton>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-    </div>
+    </PaperBackground>
   );
 }

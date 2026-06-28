@@ -99,21 +99,6 @@ export default function Upload() {
             />
           </div>
 
-          {/* Right paperclip */}
-          <div
-            className="absolute flex items-center justify-center"
-            style={{ left: 325, top: 222, width: 46.075, height: 55.857 }}
-          >
-            <img
-              src="/assets/clip-image172.webp"
-              alt=""
-              aria-hidden
-              draggable={false}
-              className="flex-none select-none"
-              style={{ width: 49.049, height: 26.776, transform: 'rotate(116.91deg)' }}
-            />
-          </div>
-
           {/* Upload tap target — centered on the card */}
           <button
             type="button"
@@ -122,16 +107,13 @@ export default function Upload() {
             className="absolute flex -translate-x-1/2 flex-col items-center gap-[15px]"
             style={{ left: 'calc(50% + 3.5px)', top: 374 }}
           >
-            {/* Icon sits in a 43×43 slot with 8.33% padding on each side */}
-            <span className="relative size-[43px]">
-              <img
-                src="/assets/icon-upload.svg"
-                alt=""
-                aria-hidden
-                className="absolute inset-[8.33%] block w-full h-full"
-              />
-            </span>
-            <span className="text-[16px] text-ink">Upload image</span>
+            <img
+              src="/assets/icon-upload.svg"
+              alt=""
+              aria-hidden
+              className="block size-[26px]"
+            />
+            <span className="text-[14px] text-ink">Upload image</span>
           </button>
         </motion.div>
 
