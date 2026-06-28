@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PaperBackground from '../components/PaperBackground';
+import { PillButton } from '../components/PillButton';
 import { deletePrint, getPrint, type Print } from '../lib/storage';
 import { ROUTES } from '../lib/flow';
 
@@ -28,6 +29,15 @@ export default function ImagePreview() {
 
   const meta = print?.metadata;
 
+  const saveImage = () => {
+    if (!print) return;
+    const src = top === 'final' ? print.finalImage : print.originalImage;
+    const a = document.createElement('a');
+    a.href = src;
+    a.download = `cyanotype-${meta?.name || print.id}-${top}.png`;
+    a.click();
+  };
+
   return (
     <PaperBackground>
       <div className="relative h-full w-full">
@@ -38,6 +48,15 @@ export default function ImagePreview() {
             lane
           </h1>
         </header>
+
+        {/* Save the currently visible image */}
+        {print && (
+          <div className="absolute right-7 top-[154px]">
+            <PillButton onClick={saveImage} aria-label="Save image to device">
+              save
+            </PillButton>
+          </div>
+        )}
 
         {/* Two stacked prints — tap the back one to bring it to the top. */}
         <div className="absolute left-1/2 top-[232px] h-[300px] w-[232px] -translate-x-1/2">
