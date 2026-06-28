@@ -25,7 +25,7 @@ const FULL_ORDER: string[] = [
   ROUTES.done,
 ];
 
-const EXPRESS_ORDER: string[] = [ROUTES.upload, ROUTES.process, ROUTES.done];
+const EXPRESS_ORDER: string[] = [ROUTES.upload, ROUTES.coat, ROUTES.process, ROUTES.done];
 
 /** The next route in the flow after `current`, respecting the chosen mode. */
 export function nextRoute(current: string, mode: FlowMode): string | null {

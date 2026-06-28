@@ -8,7 +8,7 @@ import { PillButton } from '../components/PillButton';
 import BackButton from '../components/BackButton';
 import { useFlow } from '../context/FlowContext';
 import { useObjectUrl } from '../hooks/useObjectUrl';
-import { ROUTES, progressStep } from '../lib/flow';
+import { ROUTES, nextRoute, progressStep } from '../lib/flow';
 
 const PANEL = { left: 28, top: 174, w: 346, h: 475 };
 const COVERAGE_TARGET = 0.15;
@@ -27,7 +27,7 @@ const SIZE_PRESETS = [
 
 export default function Coat() {
   const navigate = useNavigate();
-  const { setPaintedMask, negativeImage, userImage } = useFlow();
+  const { flowMode, setPaintedMask, negativeImage, userImage } = useFlow();
   const canvasRef = useRef<PaintCanvasHandle>(null);
   const [coverage, setCoverage] = useState(0);
   const [showImage, setShowImage] = useState(false);
@@ -41,7 +41,7 @@ export default function Coat() {
   const onDone = async () => {
     const blob = await canvasRef.current?.toBlob();
     if (blob) setPaintedMask(blob);
-    navigate(ROUTES.darkroom);
+    navigate(nextRoute(ROUTES.coat, flowMode ?? 'full') ?? ROUTES.darkroom);
   };
 
   return (
