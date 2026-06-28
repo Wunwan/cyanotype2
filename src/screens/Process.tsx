@@ -57,36 +57,42 @@ export default function Process() {
     <PaperBackground bgColor="#FDFAEF" className="relative">
       <BackButton />
       {flowMode === 'full' && <ProgressIndicator step={progressStep(ROUTES.process)} />}
-      <p className="absolute left-[34px] top-[94px] whitespace-nowrap text-[14px] text-ink">
-        One last rinse
-      </p>
 
-      {/* Exposing print in a white frame — matches result page style. */}
-      <div className="absolute left-1/2 top-[149px] w-[294px] -translate-x-1/2 bg-white p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
-        <ExposureStage inputUrl={inputUrl} finalUrl={finalUrl} />
-      </div>
+      <div className="flex h-full w-full flex-col">
+        {/* Top label */}
+        <div className="shrink-0 pl-[34px] pt-[94px]">
+          <p className="whitespace-nowrap text-[14px] text-ink">One last rinse</p>
+        </div>
 
-      <p className="absolute left-1/2 top-[699px] -translate-x-1/2 whitespace-nowrap text-[16px] text-ink">
-        {ready ? 'Ready!' : `${count} second${count === 1 ? '' : 's'} remaining`}
-      </p>
-      <p className="copy absolute left-1/2 top-[729px] w-[297px] -translate-x-1/2 text-center text-[20px] text-ink">
-        The print is turning Persian blue.
-      </p>
+        {/* Center: exposing print in white frame */}
+        <div className="flex flex-1 items-center justify-center overflow-hidden py-6">
+          <div className="w-[294px] bg-white p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
+            <ExposureStage inputUrl={inputUrl} finalUrl={finalUrl} />
+          </div>
+        </div>
 
-      <div className="absolute left-1/2 top-[800px] -translate-x-1/2">
-        <AnimatePresence>
-          {ready && (
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 12 }}
-            >
-              <PillButton onClick={() => navigate(ROUTES.done)}>
-                next
-              </PillButton>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Bottom: countdown + copy + next */}
+        <div className="flex shrink-0 flex-col items-center gap-2 pb-[60px]">
+          <p className="whitespace-nowrap text-[16px] text-ink">
+            {ready ? 'Ready!' : `${count} second${count === 1 ? '' : 's'} remaining`}
+          </p>
+          <p className="copy w-[297px] text-center text-[20px] text-ink">
+            The print is turning Persian blue.
+          </p>
+          <div className="mt-4 h-[44px]">
+            <AnimatePresence>
+              {ready && (
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 12 }}
+                >
+                  <PillButton onClick={() => navigate(ROUTES.done)}>next</PillButton>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </PaperBackground>
   );
