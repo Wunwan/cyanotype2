@@ -17,12 +17,13 @@ export default function ExposureStage({
 }) {
   return (
     <div className="relative w-full overflow-hidden" style={{ minHeight: inputUrl ? undefined : 240 }}>
-      {/* Base image sets the natural height of the container. */}
+      {/* Base image — proportionally scale down if too tall to fit the frame. */}
       {inputUrl && (
         <img
           src={inputUrl}
           alt="Exposing print"
-          className="block w-full h-auto"
+          className="mx-auto block h-auto w-auto max-w-full"
+          style={{ maxHeight: 460 }}
           draggable={false}
         />
       )}
@@ -36,12 +37,12 @@ export default function ExposureStage({
         transition={{ duration: 5, ease: 'linear' }}
       />
 
-      {/* Finished cyanotype fades in gradually over the second half. */}
+      {/* Finished cyanotype — matches base image layout exactly. */}
       {finalUrl && (
         <motion.img
           src={finalUrl}
           alt="Finished cyanotype"
-          className="absolute top-0 left-0 w-full h-auto"
+          className="absolute inset-0 h-full w-full object-contain"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2.5, delay: 2.5 }}

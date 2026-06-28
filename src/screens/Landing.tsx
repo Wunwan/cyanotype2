@@ -35,12 +35,16 @@ export default function Landing() {
   };
 
   return (
-    <PaperBackground bgColor="#CBCBCB">
+    <PaperBackground>
       <div className="relative h-full w-full">
-        {/* Logo placeholder (Figma node 870:900 — swap for the real mark). */}
-        <div className="absolute left-7 top-[35px] grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40">
-          logo
-        </div>
+        <button
+          type="button"
+          onClick={() => navigate(ROUTES.landing)}
+          aria-label="Go to home"
+          className="absolute left-7 top-[35px]"
+        >
+          <img src="/assets/logo.png" alt="Cyanotype" className="h-[60px] w-[33px] object-contain" draggable={false} />
+        </button>
 
         {/* Header — "Cyanotype" is one of the four display-serif headers. */}
         <motion.header

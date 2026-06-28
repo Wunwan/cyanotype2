@@ -11,13 +11,16 @@ export type Orientation = 'portrait' | 'landscape';
  * rotate the frame 90° and size the container to match. The photo sits upright
  * in the flat inner opening with object-contain — never cropped or bleeding.
  */
-const ASPECT = 961 / 736; // trimmed tray content aspect (landscape)
+export const TRAY_ASPECT = 961 / 736; // trimmed tray content aspect (landscape)
 
 // Flat inner opening as a fraction of the visible tray footprint.
-const INNER = {
+export const TRAY_INNER = {
   landscape: { x: 0.12, y: 0.16 },
   portrait: { x: 0.16, y: 0.12 },
 };
+
+const ASPECT = TRAY_ASPECT;
+const INNER = TRAY_INNER;
 
 export default function Tray({
   imageUrl,

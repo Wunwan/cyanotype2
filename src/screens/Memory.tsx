@@ -11,14 +11,8 @@ import {
 } from '../lib/storage';
 import { ROUTES } from '../lib/flow';
 
-// Scatter bounds (relative to the scatter container's top-left).
 const THUMB_W = 116;
 const THUMB_H = 150;
-const randomPos = (): PrintPosition => ({
-  x: 12 + Math.random() * (402 - THUMB_W - 24),
-  y: 12 + Math.random() * (660 - THUMB_H - 24),
-  rotation: (Math.random() - 0.5) * 16, // ±8°
-});
 
 // Dotted-grid paper backing (CSS instead of hundreds of dot nodes).
 const DOTTED: React.CSSProperties = {
@@ -37,14 +31,30 @@ export default function Memory() {
   const zCounter = useRef(10);
   const [zMap, setZMap] = useState<Record<string, number>>({});
 
-  // Load prints and assign+persist a scatter position to any that lack one.
+  // Load prints and assign+persist positions. New prints (no saved position) land
+  // in the center at the top layer; existing prints keep their saved positions.
   useEffect(() => {
-    const all = getAllPrints().map((p) => {
+    // Sort oldest-first so the newest print ends up with the highest z.
+    const allRaw = getAllPrints().sort((a, b) => a.createdAt - b.createdAt);
+    const initialZ: Record<string, number> = {};
+
+    // Scatter container is inset-x-0 top-[170px] bottom-0 → 402×704 px.
+    const CENTER_X = (402 - THUMB_W) / 2;
+    const CENTER_Y = (704 - THUMB_H) / 2;
+
+    const all = allRaw.map((p) => {
       if (p.position) return p;
-      const position = randomPos();
+      const position: PrintPosition = {
+        x: CENTER_X,
+        y: CENTER_Y,
+        rotation: (Math.random() - 0.5) * 6,
+      };
       updatePrintPosition(p.id, position);
+      initialZ[p.id] = ++zCounter.current;
       return { ...p, position };
     });
+
+    if (Object.keys(initialZ).length > 0) setZMap(initialZ);
     setPrints(all);
   }, []);
 
@@ -60,9 +70,9 @@ export default function Memory() {
           type="button"
           onClick={() => navigate(ROUTES.landing)}
           aria-label="Go to home"
-          className="absolute left-7 top-[35px] grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40"
+          className="absolute left-7 top-[35px]"
         >
-          logo
+          <img src="/assets/logo.png" alt="Cyanotype" className="h-[60px] w-[33px] object-contain" draggable={false} />
         </button>
 
         <header className="absolute right-7 top-[25px] text-right">

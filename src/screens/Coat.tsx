@@ -77,7 +77,7 @@ export default function Coat() {
               aria-hidden
               animate={{ opacity: showImage ? 0.35 : 0 }}
               transition={{ duration: 0.2 }}
-              className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+              className="pointer-events-none absolute inset-0 h-full w-full object-contain"
             />
           )}
 

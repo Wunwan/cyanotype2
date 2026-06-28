@@ -1,9 +1,5 @@
 import type { ReactNode } from 'react';
 
-/**
- * Full-bleed warm-cream paper surface with a faint tiled noise grain.
- * Used as the base layer of every paper screen (1-5, 8-10).
- */
 export default function PaperBackground({
   children,
   className = '',
@@ -18,7 +14,17 @@ export default function PaperBackground({
       className={`paper-bg h-full w-full overflow-hidden ${className}`}
       style={bgColor ? { backgroundColor: bgColor } : undefined}
     >
-      {children}
+      {/* Paper texture — z:0, always below screen content. */}
+      <img
+        src="/assets/paper.png"
+        aria-hidden
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        style={{ zIndex: 0 }}
+      />
+      {/* Content wrapper — z:1 ensures all children paint above the paper. */}
+      <div className="relative z-[1] h-full w-full">
+        {children}
+      </div>
     </div>
   );
 }

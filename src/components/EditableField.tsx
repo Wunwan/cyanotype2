@@ -66,7 +66,7 @@ export default function EditableField({
         setEditing(true);
       }}
       aria-label={`${ariaLabel}${value ? `: ${value}` : ', empty'}`}
-      className={`block w-full truncate p-0 text-left text-[16px] leading-snug ${
+      className={`block min-h-[1.4rem] w-full truncate p-0 text-left text-[16px] leading-snug ${
         value ? 'font-hand font-normal text-ink' : 'text-ink/35'
       } ${className}`}
     >

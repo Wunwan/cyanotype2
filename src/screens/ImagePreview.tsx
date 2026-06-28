@@ -41,9 +41,8 @@ export default function ImagePreview() {
               type="button"
               onClick={() => navigate(ROUTES.landing)}
               aria-label="Go to home"
-              className="grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40"
             >
-              logo
+              <img src="/assets/logo.png" alt="Cyanotype" className="h-[60px] w-[33px] object-contain" draggable={false} />
             </button>
             {print && (
               <PillButton onClick={saveImage} aria-label="Save image to device">
@@ -99,7 +98,7 @@ export default function ImagePreview() {
 
           {/* Read-only metadata */}
           {print && (
-            <div className="w-[295px] border border-edge text-black">
+            <div className="mt-4 w-[295px] border border-edge text-black">
               <div className="flex items-baseline gap-2 border-b border-edge px-2.5 py-1.5">
                 <span className="text-[11px] font-semibold">name:</span>
                 <span className="font-hand text-[16px] font-normal text-ink">{meta?.name || '—'}</span>

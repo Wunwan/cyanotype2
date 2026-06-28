@@ -89,15 +89,29 @@ export default function Done() {
 
   return (
     <div className="paper-bg min-h-full w-full">
+      <img
+        src="/assets/paper.png"
+        aria-hidden
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        style={{ zIndex: 0 }}
+      />
+
+      {/* All content sits above the paper texture. */}
+      <div className="relative z-[1]">
 
       {/* ── First viewport — mirrors ImagePreview layout ── */}
       <div className="flex h-[874px] w-full flex-col px-7">
 
         {/* Top bar: logo left, caption + save right */}
         <div className="flex shrink-0 items-start justify-between pt-[25px]">
-          <div className="mt-[10px] grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40">
-            logo
-          </div>
+          <button
+            type="button"
+            onClick={() => navigate(ROUTES.landing)}
+            aria-label="Go to home"
+            className="mt-[10px]"
+          >
+            <img src="/assets/logo.png" alt="Cyanotype" className="h-[60px] w-[33px] object-contain" draggable={false} />
+          </button>
           <div className="flex flex-col items-end gap-5">
             <p className="copy text-right text-[16px] text-ink">
               bathed in the sun,
@@ -126,17 +140,17 @@ export default function Done() {
             <div className="flex items-baseline gap-2 border-b border-edge px-2.5 py-1.5">
               <span className="text-[11px] font-semibold">name:</span>
               <div className="flex-1">
-                <EditableField value={metadata.name} placeholder="—" onCommit={commitField('name')} ariaLabel="Name" />
+                <EditableField value={metadata.name} placeholder="" onCommit={commitField('name')} ariaLabel="Name" />
               </div>
             </div>
             <div className="grid grid-cols-2">
               <div className="border-r border-edge px-2.5 py-1.5">
                 <div className="text-[11px] font-semibold">date:</div>
-                <EditableField value={metadata.date} placeholder="—" onCommit={commitField('date')} ariaLabel="Date" />
+                <EditableField value={metadata.date} placeholder="" onCommit={commitField('date')} ariaLabel="Date" />
               </div>
               <div className="px-2.5 py-1.5">
                 <div className="text-[11px] font-semibold">place:</div>
-                <EditableField value={metadata.place} placeholder="—" onCommit={commitField('place')} ariaLabel="Place" />
+                <EditableField value={metadata.place} placeholder="" onCommit={commitField('place')} ariaLabel="Place" />
               </div>
             </div>
           </div>
@@ -176,6 +190,7 @@ export default function Done() {
         />
       </div>
 
+      </div>{/* end z-[1] content wrapper */}
     </div>
   );
 }
