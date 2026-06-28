@@ -78,14 +78,14 @@ export default function Darkroom() {
       <div className="absolute left-1/2 top-[674px] h-[24px] -translate-x-1/2">
         <AnimatePresence mode="wait">
           <motion.p
-            key={idx}
+            key={done ? 'ready' : idx}
             className="whitespace-nowrap text-[15px] text-white/90"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ type: 'spring', stiffness: 300, damping: 26 }}
           >
-            {NARRATION[idx]}
+            {done ? 'Ready!' : NARRATION[idx]}
           </motion.p>
         </AnimatePresence>
       </div>

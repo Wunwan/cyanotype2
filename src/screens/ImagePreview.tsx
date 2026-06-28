@@ -26,7 +26,7 @@ export default function ImagePreview() {
     const src = top === 'final' ? print.finalImage : print.originalImage;
     const a = document.createElement('a');
     a.href = src;
-    a.download = `cyanotype-${meta?.name || print.id}-${top}.png`;
+    a.download = `cyanotype-${meta?.name || print.id}${top === 'original' ? '-original' : ''}.png`;
     a.click();
   };
 

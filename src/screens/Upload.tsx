@@ -43,7 +43,7 @@ export default function Upload() {
 
         {/* Hanging assembly — wire, clips, card and upload button sway together. */}
         <motion.div
-          className="absolute inset-0"
+          className="absolute inset-0 pointer-events-none"
           style={{ transformOrigin: '201px 200px' }}
           initial={{ rotate: 0 }}
           animate={{ rotate: [0, 1.6, -1.1, 0.6, -0.3, 0] }}
@@ -109,7 +109,7 @@ export default function Upload() {
             type="button"
             aria-label="Upload image"
             onClick={() => inputRef.current?.click()}
-            className="absolute flex -translate-x-1/2 flex-col items-center gap-[15px]"
+            className="absolute flex -translate-x-1/2 flex-col items-center gap-[15px] pointer-events-auto"
             style={{ left: 'calc(50% + 3.5px)', top: 374 }}
           >
             {/* Icon sits in a 43×43 slot with 8.33% padding on each side */}

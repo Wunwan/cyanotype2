@@ -16,12 +16,13 @@ export default function ExposureStage({
   finalUrl: string | null;
 }) {
   return (
-    <div className="relative h-[368px] w-[300px] overflow-hidden rounded-[2px] shadow-[0_10px_30px_-16px_rgba(0,0,0,0.6)]">
+    <div className="relative w-full overflow-hidden" style={{ minHeight: inputUrl ? undefined : 240 }}>
+      {/* Base image sets the natural height of the container. */}
       {inputUrl && (
         <img
           src={inputUrl}
           alt="Exposing print"
-          className="absolute inset-0 h-full w-full object-contain"
+          className="block w-full h-auto"
           draggable={false}
         />
       )}
@@ -32,18 +33,18 @@ export default function ExposureStage({
         style={{ backgroundColor: '#0c2540', mixBlendMode: 'multiply' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.4 }}
-        transition={{ duration: 4.5, ease: 'easeIn' }}
+        transition={{ duration: 5, ease: 'linear' }}
       />
 
-      {/* Finished cyanotype fades in near the end. */}
+      {/* Finished cyanotype fades in gradually over the second half. */}
       {finalUrl && (
         <motion.img
           src={finalUrl}
           alt="Finished cyanotype"
-          className="absolute inset-0 h-full w-full object-contain"
+          className="absolute top-0 left-0 w-full h-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.6, delay: 3 }}
+          transition={{ duration: 2.5, delay: 2.5 }}
           draggable={false}
         />
       )}

@@ -61,13 +61,13 @@ export default function Process() {
         One last rinse
       </p>
 
-      {/* Translucent wash basin holding the exposing print. */}
-      <div className="absolute left-1/2 top-[149px] flex h-[501px] w-[346px] -translate-x-1/2 items-center justify-center rounded-[2px] bg-white/20 backdrop-blur-[1px]">
+      {/* Exposing print in a white frame — matches result page style. */}
+      <div className="absolute left-1/2 top-[149px] w-[294px] -translate-x-1/2 bg-white p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
         <ExposureStage inputUrl={inputUrl} finalUrl={finalUrl} />
       </div>
 
       <p className="absolute left-1/2 top-[699px] -translate-x-1/2 whitespace-nowrap text-[16px] text-ink">
-        {count} second{count === 1 ? '' : 's'} remaining
+        {ready ? 'Ready!' : `${count} second${count === 1 ? '' : 's'} remaining`}
       </p>
       <p className="copy absolute left-1/2 top-[729px] w-[297px] -translate-x-1/2 text-center text-[20px] text-ink">
         The print is turning Persian blue.

@@ -240,8 +240,8 @@ export async function processCyanotypeWithMask(
  */
 export async function downscaleToDataUrl(
   blob: Blob,
-  maxDim = 1600,
-  quality = 0.9,
+  maxDim = 600,
+  quality = 0.82,
 ): Promise<string> {
   const img = await blobToImage(blob);
   const w = img.naturalWidth || maxDim;
