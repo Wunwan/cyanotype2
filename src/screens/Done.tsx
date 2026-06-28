@@ -91,25 +91,28 @@ export default function Done() {
       <div className="relative flex flex-col items-center px-7 pb-20">
         {/* First viewport: image, metadata and actions, vertically centered.
             The closing note is pushed below the fold (only appears on scroll). */}
-        <div className="flex min-h-[874px] w-full flex-col items-center pt-[35px] pb-8">
-        {/* Logo + caption + save */}
-        <div className="grid h-[31px] w-[53px] place-items-center self-start rounded-[2px] bg-black/5 text-[12px] text-ink/40">
-          logo
+        {/* Top: logo + caption + save — pinned to top of the viewport */}
+        <div className="w-full pt-[35px]">
+          <div className="grid h-[31px] w-[53px] place-items-center rounded-[2px] bg-black/5 text-[12px] text-ink/40">
+            logo
+          </div>
+          <div className="mt-6 flex w-full items-start justify-between">
+            <p className="copy text-[16px] text-ink">
+              bathed in the sun,
+              <br />
+              vibrant in Persian blue.
+            </p>
+            <PillButton onClick={onSave} aria-label="Save print to memory lane">
+              {saved ? 'saved ✓' : 'save'}
+            </PillButton>
+          </div>
         </div>
 
-        <div className="mt-6 flex w-full items-start justify-between">
-          <p className="copy text-[16px] text-ink">
-            bathed in the sun,
-            <br />
-            vibrant in Persian blue.
-          </p>
-          <PillButton onClick={onSave} aria-label="Save print to memory lane">
-            {saved ? 'saved ✓' : 'save'}
-          </PillButton>
-        </div>
+        {/* Rest: image + metadata + CTAs — vertically centered in remaining space */}
+        <div className="flex min-h-[874px] w-full flex-col items-center justify-center py-8">
 
         {/* The finished print */}
-        <div className="mt-6 w-[294px] bg-[#d9d9d9]/30 p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
+        <div className="w-[294px] bg-[#d9d9d9]/30 p-1.5 shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
           {url ? (
             <img src={url} alt="Your finished cyanotype" className="block w-full" />
           ) : (
@@ -120,7 +123,7 @@ export default function Done() {
         </div>
 
         {/* Click-to-edit metadata — grid with dividers */}
-        <div className="mt-12 w-[295px] border border-[#CBCBCB]">
+        <div className="mt-7 w-[295px] border border-[#CBCBCB]">
           <div className="flex items-baseline gap-2 border-b border-[#CBCBCB] px-2.5 py-1.5">
             <span className="text-[11px] font-semibold text-[#214371]">name:</span>
             <div className="flex-1">
@@ -155,13 +158,13 @@ export default function Done() {
         </div>
 
         {/* CTAs */}
-        <div className="mt-16 flex flex-col items-center gap-6">
+        <div className="mt-9 flex flex-col items-center gap-6">
           <PillButton className="w-[137px]" onClick={goMemory}>
             Memory lane
           </PillButton>
           <TextLink onClick={makeAnother}>Make another</TextLink>
         </div>
-        </div>
+        </div>{/* end centered section */}
         {/* ── below the fold ── */}
 
         {/* Closing note */}
