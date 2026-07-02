@@ -219,12 +219,15 @@ export async function processCyanotypeWithMask(
   mCtx.drawImage(maskImg, 0, 0, w, h);
   const maskData = mCtx.getImageData(0, 0, w, h).data;
 
-  // Where the mask has no paint, replace with paper color.
+  // Blend cyanotype with paper color proportional to mask alpha so brush
+  // stroke opacity and edge softness carry through to the final print.
   for (let i = 0; i < d.length; i += 4) {
-    if (maskData[i + 3] < 10) {
-      d[i] = PAPER_COLOR[0];
-      d[i + 1] = PAPER_COLOR[1];
-      d[i + 2] = PAPER_COLOR[2];
+    const a = maskData[i + 3] / 255;
+    if (a < 1) {
+      const inv = 1 - a;
+      d[i]     = Math.round(d[i]     * a + PAPER_COLOR[0] * inv);
+      d[i + 1] = Math.round(d[i + 1] * a + PAPER_COLOR[1] * inv);
+      d[i + 2] = Math.round(d[i + 2] * a + PAPER_COLOR[2] * inv);
       d[i + 3] = 255;
     }
   }

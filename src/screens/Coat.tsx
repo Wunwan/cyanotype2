@@ -20,9 +20,9 @@ const BRUSH_OPTIONS: { type: BrushType; label: string; icon: () => React.ReactNo
 ];
 
 const SIZE_PRESETS = [
-  { label: 'S', value: 10 },
-  { label: 'M', value: 18 },
-  { label: 'L', value: 28 },
+  { r: 3,  value: 10 },
+  { r: 5,  value: 18 },
+  { r: 7.5, value: 28 },
 ];
 
 export default function Coat() {
@@ -136,16 +136,18 @@ export default function Coat() {
             <div className="mx-1 h-5 w-px bg-ink/20" />
 
             {/* Size presets */}
-            {SIZE_PRESETS.map(({ label, value }) => (
+            {SIZE_PRESETS.map(({ r, value }) => (
               <button
-                key={label}
-                aria-label={`Brush size ${label}`}
+                key={value}
+                aria-label={`Brush size ${value}`}
                 onClick={() => setBrushSize(value)}
-                className={`flex h-10 w-10 items-center justify-center rounded-full text-[13px] font-medium transition-colors ${
+                className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
                   brushSize === value ? 'bg-ink text-cream' : 'bg-black/5 text-ink'
                 }`}
               >
-                {label}
+                <svg width="18" height="18" viewBox="0 0 18 18">
+                  <circle cx="9" cy="9" r={r} fill="currentColor" />
+                </svg>
               </button>
             ))}
           </div>
@@ -207,8 +209,15 @@ function BristleIcon() {
 function FillIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 6l-8.5 8.5a2.12 2.12 0 0 0 3 3L19 9l-3-3z" />
-      <path d="M2 22h4" strokeWidth="3" strokeLinecap="round" />
+      {/* Bucket body */}
+      <path d="M6 9h12l-2 11H8z" />
+      {/* Bucket rim */}
+      <path d="M4 9h16" />
+      {/* Bucket handle */}
+      <path d="M9 5a3 3 0 0 1 6 0" />
+      {/* Paint drip */}
+      <line x1="20" y1="15" x2="20" y2="18" />
+      <circle cx="20" cy="20" r="1.5" fill="currentColor" stroke="none" />
     </svg>
   );
 }

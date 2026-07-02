@@ -179,7 +179,8 @@ export default function Done() {
           transition={{ type: 'spring', stiffness: 240, damping: 26 }}
         >
           <h2 className="font-serif-display text-[48px] leading-none text-ink">Thank you</h2>
-          <p className="text-[10px] text-ink">with care, 文宛 (wén wǎn)</p>
+          {/* <p className="text-[10px] text-ink">with care, 文宛 (wén wǎn) and </p> */}
+          <p className="text-[10px] text-ink">With care, by Wunwan and Jessica </p>
         </motion.div>
 
         <img

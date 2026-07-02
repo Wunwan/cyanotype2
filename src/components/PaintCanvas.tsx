@@ -122,7 +122,11 @@ const PaintCanvas = forwardRef<PaintCanvasHandle, Props>(function PaintCanvas(
 
   const pointFromEvent = (e: React.PointerEvent) => {
     const rect = activeRef.current!.getBoundingClientRect();
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    // rect is in screen pixels; divide by the CSS-to-logical ratio to undo any
+    // parent CSS scale() transform (e.g. PhoneFrame's viewport scaling).
+    const scaleX = rect.width / width;
+    const scaleY = rect.height / height;
+    return { x: (e.clientX - rect.left) / scaleX, y: (e.clientY - rect.top) / scaleY };
   };
 
   const drawDot = (ctx: CanvasRenderingContext2D, p: { x: number; y: number }) => {
